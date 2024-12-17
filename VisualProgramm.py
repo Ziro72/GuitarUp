@@ -7,7 +7,6 @@ from Finger import Finger
 
 
 class Widget(QDialog):
-
     def __init__(self):
         super().__init__()
         uic.loadUi("src/main_page.ui", self)

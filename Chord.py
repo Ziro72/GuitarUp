@@ -29,14 +29,14 @@ class Chord:
     def draw_string(self, chord_image, number):
         if self.str_states[number] == 'PINCHED':
             return
-        status_image = Image.open(f"src/{self.str_states[number]}.png")
+        status_image = Image.open(f"./src/{self.str_states[number]}.png")
         position = (GRID_XS[number] - SHIFT_STRINGS, STATUS_Y - SHIFT_STRINGS)
         chord_image.paste(status_image, position, status_image)
 
     def draw_chord(self):
-        new_chord = Image.open("../PycharmProjects/GuitarUp/src/chord.png")
+        new_chord = Image.open("./src/chord.png")
         for i in range(5):
             self.fingers[i].draw_finger(new_chord, i + 1)
         for i in range(6):
             self.draw_string(new_chord, i)
-        new_chord.save(f"chords/{self.name}.png")
+        new_chord.save(f"./chords/{self.name}.png")
