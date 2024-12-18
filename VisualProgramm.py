@@ -1,4 +1,5 @@
 import sys
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QDialog
 from PyQt5 import uic
@@ -16,30 +17,35 @@ class Widget(QDialog):
         self.resetButton.clicked.connect(self.resetPressed)
         self.submitButton.clicked.connect(self.submitPressed)
 
-        self.string1.currentTextChanged.connect(lambda: self.stringTextChanged(1))
-        self.string2.currentTextChanged.connect(lambda: self.stringTextChanged(2))
-        self.string3.currentTextChanged.connect(lambda: self.stringTextChanged(3))
-        self.string4.currentTextChanged.connect(lambda: self.stringTextChanged(4))
-        self.string5.currentTextChanged.connect(lambda: self.stringTextChanged(5))
-        self.string6.currentTextChanged.connect(lambda: self.stringTextChanged(6))
+        fingers_settings_gbs = list(self.fingersSettings.children())
+        fingers_settings_gbs.sort(key=lambda x: x.objectName())
 
+        self.chooseBarre1.currentTextChanged.connect(lambda: self.chooseBarreTextChanged(1))
+        self.chooseFret1.currentTextChanged.connect(lambda: self.chooseFretTextChanged(1))
         self.chooseString1.currentTextChanged.connect(lambda: self.chooseStringTextChanged(1))
+
+        self.chooseBarre2.currentTextChanged.connect(lambda: self.chooseBarreTextChanged(2))
+        self.chooseFret2.currentTextChanged.connect(lambda: self.chooseFretTextChanged(2))
         self.chooseString2.currentTextChanged.connect(lambda: self.chooseStringTextChanged(2))
+
+        self.chooseBarre3.currentTextChanged.connect(lambda: self.chooseBarreTextChanged(3))
+        self.chooseFret3.currentTextChanged.connect(lambda: self.chooseFretTextChanged(3))
         self.chooseString3.currentTextChanged.connect(lambda: self.chooseStringTextChanged(3))
+
+        self.chooseBarre4.currentTextChanged.connect(lambda: self.chooseBarreTextChanged(4))
+        self.chooseFret4.currentTextChanged.connect(lambda: self.chooseFretTextChanged(4))
         self.chooseString4.currentTextChanged.connect(lambda: self.chooseStringTextChanged(4))
+
+        self.chooseBarre5.currentTextChanged.connect(lambda: self.chooseBarreTextChanged(5))
+        self.chooseFret5.currentTextChanged.connect(lambda: self.chooseFretTextChanged(5))
         self.chooseString5.currentTextChanged.connect(lambda: self.chooseStringTextChanged(5))
 
-        self.chooseFret1.currentTextChanged.connect(lambda: self.chooseFretTextChanged(1))
-        self.chooseFret2.currentTextChanged.connect(lambda: self.chooseFretTextChanged(2))
-        self.chooseFret3.currentTextChanged.connect(lambda: self.chooseFretTextChanged(3))
-        self.chooseFret4.currentTextChanged.connect(lambda: self.chooseFretTextChanged(4))
-        self.chooseFret5.currentTextChanged.connect(lambda: self.chooseFretTextChanged(5))
-
-        self.chooseBarreLen1.currentTextChanged.connect(lambda: self.chooseBarreLenTextChanged(1))
-        self.chooseBarreLen2.currentTextChanged.connect(lambda: self.chooseBarreLenTextChanged(2))
-        self.chooseBarreLen3.currentTextChanged.connect(lambda: self.chooseBarreLenTextChanged(3))
-        self.chooseBarreLen4.currentTextChanged.connect(lambda: self.chooseBarreLenTextChanged(4))
-        self.chooseBarreLen5.currentTextChanged.connect(lambda: self.chooseBarreLenTextChanged(5))
+        self.CBString1.stateChanged.connect(lambda: self.stringStatusChanged(1))
+        self.CBString2.stateChanged.connect(lambda: self.stringStatusChanged(2))
+        self.CBString3.stateChanged.connect(lambda: self.stringStatusChanged(3))
+        self.CBString4.stateChanged.connect(lambda: self.stringStatusChanged(4))
+        self.CBString5.stateChanged.connect(lambda: self.stringStatusChanged(5))
+        self.CBString6.stateChanged.connect(lambda: self.stringStatusChanged(6))
 
         self.chordName.textChanged.connect(self.chordNameChanged)
         self.startFret.textChanged.connect(self.startFretChanged)
@@ -55,7 +61,7 @@ class Widget(QDialog):
     def changeEnableOfStates(self, ind):
         chS = eval(f"self.chooseString{ind}")
         chF = eval(f"self.chooseFret{ind}")
-        chBL = eval(f"self.chooseBarreLen{ind}")
+        chBL = eval(f"self.chooseBarre{ind}")
 
         chS.setEnabled(not chS.isEnabled())
         chF.setEnabled(not chF.isEnabled())
@@ -67,12 +73,12 @@ class Widget(QDialog):
             chBL.setCurrentIndex(0)
 
     def resetPressed(self):
-        self.string1.setCurrentIndex(0)
-        self.string2.setCurrentIndex(0)
-        self.string3.setCurrentIndex(0)
-        self.string4.setCurrentIndex(0)
-        self.string5.setCurrentIndex(0)
-        self.string6.setCurrentIndex(0)
+        self.CBString1.setChecked(False)
+        self.CBString2.setChecked(False)
+        self.CBString3.setChecked(False)
+        self.CBString4.setChecked(False)
+        self.CBString5.setChecked(False)
+        self.CBString6.setChecked(False)
 
         self.chooseString1.setCurrentIndex(0)
         self.chooseString2.setCurrentIndex(0)
@@ -86,11 +92,11 @@ class Widget(QDialog):
         self.chooseFret4.setCurrentIndex(0)
         self.chooseFret5.setCurrentIndex(0)
 
-        self.chooseBarreLen1.setCurrentIndex(0)
-        self.chooseBarreLen2.setCurrentIndex(0)
-        self.chooseBarreLen3.setCurrentIndex(0)
-        self.chooseBarreLen4.setCurrentIndex(0)
-        self.chooseBarreLen5.setCurrentIndex(0)
+        self.chooseBarre1.setCurrentIndex(0)
+        self.chooseBarre2.setCurrentIndex(0)
+        self.chooseBarre3.setCurrentIndex(0)
+        self.chooseBarre4.setCurrentIndex(0)
+        self.chooseBarre5.setCurrentIndex(0)
 
     def chordNameChanged(self, text):
         self.chord.change_name(text)
@@ -101,14 +107,17 @@ class Widget(QDialog):
     def submitPressed(self):
         self.chord.draw_chord()
 
-    def stringTextChanged(self, ind):
-        widget = eval(f"self.string{ind}")
-        text = str(widget.currentText())
-        self.chord.assign_string(ind - 1, text.upper())
-        # if text == "Pinched":
-        #     pass
-        # elif text == "Muted":
-        #     pass
+    def stringStatusChanged(self, ind):
+        label = eval(f"self.stringState{ind}")
+        self.chord.change_string_state(ind - 1)
+        # QtWidgets.QLabel.setText(self.chord.str_states[ind - 1])
+        label.setText(self.chord.str_states[ind - 1])
+
+    def updateStrings(self):
+        self.chord.update_strings()
+        for i in range(6):
+            label = eval(f"self.stringState{i + 1}")
+            label.setText(self.chord.str_states[i])
 
     def chooseStringTextChanged(self, ind):
         widget = eval(f"self.chooseString{ind}")
@@ -117,6 +126,8 @@ class Widget(QDialog):
         finger: Finger = self.chord.finger(ind - 1)
         finger.edit_string(int(text))
 
+        self.updateStrings()
+
     def chooseFretTextChanged(self, ind):
         widget = eval(f"self.chooseFret{ind}")
         text = widget.currentText()
@@ -124,12 +135,16 @@ class Widget(QDialog):
         finger: Finger = self.chord.finger(ind - 1)
         finger.edit_fret(int(text))
 
-    def chooseBarreLenTextChanged(self, ind):
-        widget = eval(f"self.chooseBarreLen{ind}")
+        self.updateStrings()
+
+    def chooseBarreTextChanged(self, ind):
+        widget = eval(f"self.chooseBarre{ind}")
         text = widget.currentText()
 
         finger: Finger = self.chord.finger(ind - 1)
         finger.edit_barre_length(int(text))
+
+        self.updateStrings()
 
 
 if __name__ == '__main__':
