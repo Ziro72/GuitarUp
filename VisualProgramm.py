@@ -1,8 +1,10 @@
 import sys
-from PyQt5 import QtWidgets
+
+from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QDialog
 from PyQt5 import uic
+
 from Chord import Chord
 from Finger import Finger
 
@@ -17,6 +19,7 @@ class Widget(QDialog):
         self.resetButton.clicked.connect(self.resetPressed)
         self.submitButton.clicked.connect(self.submitPressed)
 
+        # QtWidgets.QComboBox.
         fingers_settings_gbs = list(self.fingersSettings.children())
         fingers_settings_gbs.sort(key=lambda x: x.objectName())
 
@@ -119,6 +122,14 @@ class Widget(QDialog):
             label = eval(f"self.stringState{i + 1}")
             label.setText(self.chord.str_states[i])
 
+    def updateBarreAccess(self, ind, string):
+        lst = [str(i) for i in range(7 - string)]
+        model = QtCore.QStringListModel(lst)
+
+        widget = eval(f"self.chooseBarre{ind}")
+        widget.setModel(model)
+
+
     def chooseStringTextChanged(self, ind):
         widget = eval(f"self.chooseString{ind}")
         text = widget.currentText()
@@ -126,6 +137,7 @@ class Widget(QDialog):
         finger: Finger = self.chord.finger(ind - 1)
         finger.edit_string(int(text))
 
+        self.updateBarreAccess(ind, int(text))
         self.updateStrings()
 
     def chooseFretTextChanged(self, ind):

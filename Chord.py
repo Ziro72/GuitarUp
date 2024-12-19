@@ -1,7 +1,7 @@
 from Finger import Finger
 from Consts import *
 
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 
 
 class Chord:
@@ -10,6 +10,8 @@ class Chord:
         self.start_fret = fret
         self.fingers = [Finger() for i in range(5)]
         self.str_states = ["Open" for i in range(6)]
+
+        self.font = ImageFont.truetype("./src/ARLRDBD.TTF", 224)
 
     def change_name(self, name):
         self.name = name
@@ -51,10 +53,19 @@ class Chord:
         position = (GRID_XS[number] - SHIFT_STRINGS, STATUS_Y - SHIFT_STRINGS)
         chord_image.paste(status_image, position, status_image)
 
+    def draw_name(self, chord_image):
+        width, height = 900, 300
+        image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        drawer = ImageDraw.Draw(image)
+        drawer.text((140, 10), self.name, font=self.font, fill=(255, 255, 255, 255))
+        chord_image.paste(image, (0, 0), image)
+
     def draw_chord(self):
         new_chord = Image.open("./src/chord.png")
         for i in range(5):
             self.fingers[i].draw_finger(new_chord, i + 1)
         for i in range(6):
             self.draw_string(new_chord, i)
+
+        self.draw_name(new_chord)
         new_chord.save(f"./chords/{self.name}.png")
