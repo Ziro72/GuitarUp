@@ -8,6 +8,7 @@ class Chord:
     def __init__(self, name="", fret=""):
         self.name = name
         self.start_fret = fret
+        self.barre = 0
         self.fingers = [Finger() for i in range(5)]
         self.str_states = ["Open" for i in range(6)]
 
@@ -19,8 +20,11 @@ class Chord:
     def change_start_fret(self, fret):
         self.start_fret = fret
 
-    def assign_finger(self, number, fret, string, barre_length=0):
-        self.fingers[number].edit(fret, string, barre_length)
+    def edit_barre(self, barre):
+        self.barre = barre
+
+    def assign_finger(self, number, fret, string):
+        self.fingers[number].edit(fret, string)
 
     def finger(self, number):
         return self.fingers[number]
@@ -36,7 +40,7 @@ class Chord:
         string = finger.string
         if string == 0 or finger.fret == 0:
             return
-        for cur_string in range(string, string + finger.barre_length + 1):
+        for cur_string in range(string, string + (1 if finger != self.finger(0) else self.barre + 1)):
             if states[cur_string - 1] == 'Open':
                 states[cur_string - 1] = 'Pinched'
 
@@ -53,6 +57,26 @@ class Chord:
         position = (GRID_XS[number] - SHIFT_STRINGS, STATUS_Y - SHIFT_STRINGS)
         chord_image.paste(status_image, position, status_image)
 
+    def draw_barre(self, chord_image):
+        finger = self.finger(0)
+        finger_image = Image.open(f"src/barre{self.barre}.png")
+        position = (GRID_XS[finger.string - 1 + self.barre] - SHIFT_FINGERS,
+                    GRID_YS[finger.fret - 1] - SHIFT_FINGERS)
+        chord_image.paste(finger_image, position, finger_image)
+
+    def draw_finger(self, chord_image, number):
+        finger = self.finger(number)
+        if finger.string == 0 or finger.fret == 0:
+            return
+        if number == 0 and self.barre != 0:
+            self.draw_barre(chord_image)
+            return
+
+        finger_image = Image.open(f"src/finger{number + 1}.png")
+        position = (GRID_XS[finger.string - 1] - SHIFT_FINGERS,
+                    GRID_YS[finger.fret - 1] - SHIFT_FINGERS)
+        chord_image.paste(finger_image, position, finger_image)
+
     def draw_name(self, chord_image):
         width, height = 900, 300
         image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
@@ -63,7 +87,7 @@ class Chord:
     def draw_chord(self):
         new_chord = Image.open("./src/chord.png")
         for i in range(5):
-            self.fingers[i].draw_finger(new_chord, i + 1)
+            self.draw_finger(new_chord, i)
         for i in range(6):
             self.draw_string(new_chord, i)
 
