@@ -100,7 +100,7 @@ class Widget(QDialog):
         # self.chooseFret4.setCurrentIndex(0)
         # self.chooseFret5.setCurrentIndex(0)
 
-        self.chooseBarre.setCurrentIndex(0)
+        # self.chooseBarre.setCurrentIndex(0)
 
     def chordNameChanged(self, text):
         self.chord.change_name(text)

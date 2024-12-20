@@ -1,8 +1,3 @@
-from Consts import *
-
-from PIL import Image
-
-
 class Finger:
     def __init__(self, fret=0, string=0):
         self.is_pinch = bool(fret)

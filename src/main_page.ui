@@ -151,7 +151,7 @@
     </font>
    </property>
    <property name="maximum">
-    <number>30</number>
+    <number>17</number>
    </property>
   </widget>
   <widget class="QLabel" name="labelStrings">

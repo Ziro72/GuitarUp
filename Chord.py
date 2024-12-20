@@ -5,12 +5,12 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 class Chord:
-    def __init__(self, name="", fret=""):
+    def __init__(self, name="", fret=0):
         self.name = name
         self.start_fret = fret
         self.barre = 0
-        self.fingers = [Finger() for i in range(5)]
-        self.str_states = ["Open" for i in range(6)]
+        self.fingers = [Finger() for _ in range(5)]
+        self.str_states = ["Open" for _ in range(6)]
 
         self.font = ImageFont.truetype("./src/ARLRDBD.TTF", 224)
 
@@ -53,13 +53,13 @@ class Chord:
     def draw_string(self, chord_image, number):
         if self.str_states[number] == 'Pinched':
             return
-        status_image = Image.open(f"./src/{self.str_states[number]}.png")
+        state_image = Image.open(f"./src/states/{self.str_states[number]}.png")
         position = (GRID_XS[number] - SHIFT_STRINGS, STATUS_Y - SHIFT_STRINGS)
-        chord_image.paste(status_image, position, status_image)
+        chord_image.paste(state_image, position, state_image)
 
     def draw_barre(self, chord_image):
         finger = self.finger(0)
-        finger_image = Image.open(f"src/barre{self.barre}.png")
+        finger_image = Image.open(f"src/barres/barre{self.barre}.png")
         position = (GRID_XS[finger.string - 1 + self.barre] - SHIFT_FINGERS,
                     GRID_YS[finger.fret - 1] - SHIFT_FINGERS)
         chord_image.paste(finger_image, position, finger_image)
@@ -72,7 +72,7 @@ class Chord:
             self.draw_barre(chord_image)
             return
 
-        finger_image = Image.open(f"src/finger{number + 1}.png")
+        finger_image = Image.open(f"src/fingers/finger{number + 1}.png")
         position = (GRID_XS[finger.string - 1] - SHIFT_FINGERS,
                     GRID_YS[finger.fret - 1] - SHIFT_FINGERS)
         chord_image.paste(finger_image, position, finger_image)
@@ -81,11 +81,11 @@ class Chord:
         width, height = 900, 300
         image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
         drawer = ImageDraw.Draw(image)
-        drawer.text((140, 10), self.name, font=self.font, fill=(255, 255, 255, 255))
+        drawer.text(NAME_CORDS, self.name, font=self.font, fill=(255, 255, 255, 255))
         chord_image.paste(image, (0, 0), image)
 
     def draw_chord(self):
-        new_chord = Image.open("./src/chord.png")
+        new_chord = Image.open(f"src/chords/chord{self.start_fret}.png")
         for i in range(5):
             self.draw_finger(new_chord, i)
         for i in range(6):
