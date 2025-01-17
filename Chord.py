@@ -1,6 +1,7 @@
 from Finger import Finger
 from Consts import *
 
+from os import path
 from PIL import Image, ImageDraw, ImageFont
 
 
@@ -12,7 +13,8 @@ class Chord:
         self.fingers = [Finger() for _ in range(5)]
         self.str_states = ["Open" for _ in range(6)]
 
-        self.font = ImageFont.truetype("./src/ARLRDBD.TTF", 224)
+        self.font = ImageFont.truetype("./src/ARLRDBD.TTF", CHORD_NAME_FONT)
+        self.small_font = ImageFont.truetype("./src/ARLRDBD.TTF", CHORD_NAME_SMALL_FONT)
 
     def change_name(self, name):
         self.name = name
@@ -50,6 +52,45 @@ class Chord:
             self.update_finger(self.fingers[i], new_states)
         self.str_states = new_states
 
+    def check_key(self, name, key):
+        if len(name) <= len(key) or name[:len(key)] != key:
+            return 0
+        res = len(key) + 1
+        if len(name) > res and name[res].isdigit():
+            res += 1
+        return res
+
+    def word_push(self, array, word, state):
+        if word:
+            array.append((word, state))
+        return ''
+
+    def refactor_name(self, name):
+        array = []
+        index = 0
+        word = ''
+        while index < len(name):
+            if name[index] == '(':
+                word = self.word_push(array, word, False)
+                while index != len(name) and name[index - 1] != ')':
+                    word += name[index]
+                    index += 1
+                word = self.word_push(array, word, True)
+                continue
+            for key in KEY_WORDS:
+                word_length = self.check_key(name[index:], key)
+                if word_length == 0:
+                    continue
+                word = self.word_push(array, word, False)
+                array.append((name[index:index + word_length], True))
+                index += word_length
+                break
+            else:
+                word += name[index]
+                index += 1
+        self.word_push(array, word, False)
+        return array
+
     def draw_string(self, chord_image, number):
         if self.str_states[number] == 'Pinched':
             return
@@ -78,10 +119,14 @@ class Chord:
         chord_image.paste(finger_image, position, finger_image)
 
     def draw_name(self, chord_image):
-        width, height = 900, 300
-        image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        image = Image.new("RGBA", NAME_SIZE, (0, 0, 0, 0))
+        name_parts = self.refactor_name(self.name.replace('-', '/'))
         drawer = ImageDraw.Draw(image)
-        drawer.text(NAME_CORDS, self.name, font=self.font, fill=(255, 255, 255, 255))
+        x, y = NAME_CORDS
+        for part in name_parts:
+            font = self.small_font if part[1] else self.font
+            drawer.text((x, y + 96 * int(part[1])), part[0], font=font, fill=(255, 255, 255, 255))
+            x += font.getlength(part[0])
         chord_image.paste(image, (0, 0), image)
 
     def draw_chord(self):
@@ -92,4 +137,8 @@ class Chord:
             self.draw_string(new_chord, i)
 
         self.draw_name(new_chord)
-        new_chord.save(f"./chords/{self.name}.png")
+        new_name = self.name.replace('/', '-')
+        counter = 1
+        while path.exists(f"./chords/{new_name}_{counter}.png"):
+            counter += 1
+        new_chord.save(f"./chords/{new_name}_{counter}.png")
