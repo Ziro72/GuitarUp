@@ -1,0 +1,63 @@
+name: Test Server Integration
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Test Java and Python Integration
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # 2. Set up Java environment
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 3. Install Python
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      # 4. Install Python dependencies
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flask pillow
+
+      # 5. Start Python server
+      - name: Start Python Server
+        run: |
+          python server.py &
+        working-directory: ./python-server
+        env:
+          FLASK_ENV: development
+          FLASK_APP: server.py
+
+      # 6. Build and Run Java Code
+      - name: Build and Run Java Code
+        run: |
+          mvn clean install
+          java -cp target/classes Main
+        working-directory: ./
+
+      # 7. Validate Output
+      - name: Check Rendered Chords
+        run: |
+          if [ ! -d ./python-server/chords ]; then
+            echo "Chord images not found!"
+            exit 1
+          fi
+          ls ./python-server/chords
