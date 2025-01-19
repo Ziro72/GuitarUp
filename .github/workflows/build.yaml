@@ -22,6 +22,12 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '17'
+
+    - name: Clone JAR repository
+      run: |
+          git clone https://github.com/GuchievBashir/jar-repo jar-repo
+          mkdir -p libs
+          cp jar-repo/*.jar libs/
         
     - name: Cache Maven dependencies
       uses: actions/cache@v3
