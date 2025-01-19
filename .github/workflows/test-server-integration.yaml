@@ -37,6 +37,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install flask pillow
 
+      - name: Clone JAR repository
+        run: |
+          git clone https://github.com/GuchievBashir/jar-repo jar-repo
+          mkdir -p libs
+          cp jar-repo/*.jar libs/
+        
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
       # 5. Start Python server
       - name: Start Python Server
         run: |
