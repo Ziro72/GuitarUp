@@ -56,6 +56,7 @@ jobs:
         run: |
          mkdir -p chords
          python server.py &
+         sleep 5
         env:
          FLASK_ENV: development
          FLASK_APP: server.py
