@@ -15,5 +15,5 @@ jobs:
     steps:
       - name: Clone JAR repository
         run: |
-          git clone https://github.com/GuchievBashir/jar-repo
+          git clone https://github.com/GuchievBashir/jar-repo jar-repo
           cp jar-repo/*.jar libs/
