@@ -75,3 +75,9 @@ jobs:
             exit 1
           fi
           ls ./python-server/chords
+
+      - name: Upload chord images
+        uses: actions/upload-artifact@v3
+        with:
+          name: chord-images
+          path: ./python-server/chords  
