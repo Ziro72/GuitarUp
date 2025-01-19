@@ -64,7 +64,7 @@ jobs:
       - name: Build and Run Java Code
         run: |
           mvn clean install
-          java -cp target/classes Main
+          java -cp "libs/*:target/classes" Main
         working-directory: ./
 
       # 7. Validate Output
