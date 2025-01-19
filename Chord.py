@@ -139,6 +139,6 @@ class Chord:
         self.draw_name(new_chord)
         new_name = self.name.replace('/', '-')
         counter = 1
-        while path.exists(f"./chords/{new_name}_{counter}.png"):
+        while path.exists(f"./python-server/chords/{new_name}_{counter}.png"):
             counter += 1
-        new_chord.save(f"./chords/{new_name}_{counter}.png")
+        new_chord.save(f"./python-server/chords/{new_name}_{counter}.png")
