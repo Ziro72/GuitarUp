@@ -52,11 +52,11 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Run server and Java code in one step
-        working-directory: ./python-server
+        working-directory: .
         run: |
-         python server.py &
+         python python-server/server.py &
          sleep 5
-         mkdir -p chords
+         mkdir -p python-server/chords
          mvn clean install
          java -cp "libs/*:target/classes" Main
 
