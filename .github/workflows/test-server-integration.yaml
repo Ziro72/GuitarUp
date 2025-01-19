@@ -51,12 +51,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      # 5. Start Python server
       - name: Start Python Server
-        run: |
-          mkdir -p ./python-server/chords
-          python server.py &
         working-directory: ./python-server
+        run: |
+          mkdir -p chords
+          python server.py &
         env:
           FLASK_ENV: development
           FLASK_APP: server.py
