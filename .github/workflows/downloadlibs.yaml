@@ -16,4 +16,5 @@ jobs:
       - name: Clone JAR repository
         run: |
           git clone https://github.com/GuchievBashir/jar-repo jar-repo
+          mkdir -p libs
           cp jar-repo/*.jar libs/
