@@ -12,7 +12,7 @@ import java.net.URL;
 
 public class Main {
   public static void main(String[] args) {
-    String filePath = "C:\\Users\\t480s\\Downloads\\forbidden_friendship.gpx";
+    String filePath = "forbidden_friendship.gpx";
     SongReader.read(filePath);
   }
 }
