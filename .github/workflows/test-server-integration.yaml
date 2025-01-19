@@ -54,30 +54,22 @@ jobs:
       - name: Start Python Server
         working-directory: ./python-server
         run: |
-          mkdir -p chords
-          python server.py &
+         mkdir -p chords
+         python server.py &
         env:
-          FLASK_ENV: development
-          FLASK_APP: server.py
+         FLASK_ENV: development
+         FLASK_APP: server.py
 
-      # 6. Build and Run Java Code
       - name: Build and Run Java Code
         run: |
           mvn clean install
           java -cp "libs/*:target/classes" Main
-        working-directory: ./
 
-      # 7. Validate Output
-      - name: Check Rendered Chords
-        run: |
-          if [ ! -d ./python-server/chords ]; then
-            echo "Chord images not found!"
-            exit 1
-          fi
-          ls ./python-server/chords
+      - name: List chord images
+        run: ls -R ./python-server/chords
 
       - name: Upload chord images
         uses: actions/upload-artifact@v3
         with:
-          name: chord-images
-          path: ./python-server/chords  
+         name: chord-images
+         path: ./python-server/chords
