@@ -51,20 +51,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Start Python Server
-        working-directory: ./python-server
+      - name: Run server and Java code in one step
         run: |
-         mkdir -p chords
          python server.py &
          sleep 5
-        env:
-         FLASK_ENV: development
-         FLASK_APP: server.py
+         mkdir -p chords
+         java -cp "libs/*:target/classes" Main
 
-      - name: Build and Run Java Code
-        run: |
-          mvn clean install
-          java -cp "libs/*:target/classes" Main
 
       - name: List chord images
         run: ls -R ./python-server/chords
