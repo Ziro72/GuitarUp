@@ -13,7 +13,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        String filePath = "jam_lydian.gp3";
+        String filePath = "src/main/java/forbidden_friendship.gpx";
         SongReader.read(filePath);
     }
 }
