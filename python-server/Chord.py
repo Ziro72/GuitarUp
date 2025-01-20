@@ -73,11 +73,35 @@ class Chord:
         chord_image.paste(state_image, position, state_image)
 
     def draw_barre(self, chord_image):
-        finger = self.finger(0)
-        finger_image = Image.open(f"src/barres/barre{self.barre}.png")
-        position = (GRID_XS[finger.string - 1 + self.barre] - SHIFT_FINGERS,
-                    GRID_YS[finger.fret - 1] - SHIFT_FINGERS)
-        chord_image.paste(finger_image, position, finger_image)
+    if self.barre > 0:
+        # Проверка, что barre находится в допустимом диапазоне
+        if self.barre - 1 >= len(FRET_XS):
+            app.logger.error(f"Barre fret {self.barre} exceeds FRET_XS length {len(FRET_XS)}")
+            return  # Пропускаем отрисовку барре
+        
+        fret_x = FRET_XS[self.barre - 1]
+
+        for finger in self.fingers:
+            if finger.is_barre:
+                # Проверка, что string находится в допустимом диапазоне
+                if finger.string - 1 >= len(STRING_YS):
+                    app.logger.error(f"String {finger.string} exceeds STRING_YS length {len(STRING_YS)}")
+                    continue  # Пропускаем этот палец
+
+                string_y = STRING_YS[finger.string - 1]
+
+                position = (
+                    fret_x - SHIFT_FINGERS,
+                    string_y - SHIFT_FINGERS,
+                    fret_x + SHIFT_FINGERS,
+                    string_y + SHIFT_FINGERS
+                )
+
+                app.logger.info(f"Drawing barre at position: {position}")
+
+                # Отрисовка барре (например, прямоугольника)
+                chord_image.rectangle(position, fill="black")
+
 
     def draw_finger(self, chord_image, number):
         finger = self.finger(number)
