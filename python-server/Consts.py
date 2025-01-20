@@ -1,6 +1,6 @@
 # for chords
-GRID_XS = [907, 769, 630, 492, 354, 216]
-GRID_YS = [413, 561, 719, 877, 1045]
+FRET_XS = [216, 354, 492, 630, 769, 907, 1045, 1183, 1321, 1459]  # Расширьте список при необходимости
+STRING_YS = [413, 561, 719, 877, 1045]
 
 STATUS_Y = 280
 SHIFT_FINGERS = 53
@@ -16,7 +16,6 @@ FONT_SMALL_SIZE = 120
 KEY_WORDS = ('no', 'maj', 'sus', 'add')
 
 DISPLAY_SIZE = (238, 278)
-
 
 # for arrows
 MASSIVE_SIZE = 16
