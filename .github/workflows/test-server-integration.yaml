@@ -56,16 +56,15 @@ jobs:
         run: |
           python python-server/server.py &
           sleep 5
-          mkdir -p python-server/chords
           mvn clean install
           java -cp "libs/*:target/classes" Main
 
 
       - name: List chord images
-        run: ls -R ./python-server/chords
+        run: ls -R ./chords
 
       - name: Upload chord images
         uses: actions/upload-artifact@v3
         with:
           name: chord-images
-          path: ./python-server/chords
+          path: ./chords
