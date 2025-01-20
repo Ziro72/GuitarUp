@@ -60,11 +60,6 @@ jobs:
           mvn clean install
           java -cp "libs/*:target/classes" Main
 
-      - name: Show server logs
-        working-directory: ./python-server
-        run: |
-          cat server.log
-
       - name: List chord images
         run: ls -R ./chords
 
