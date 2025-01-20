@@ -1,0 +1,70 @@
+name: Test Server Integration
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Test Java and Python Integration
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # 2. Set up Java environment
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 3. Install Python
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      # 4. Install Python dependencies
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flask pillow
+
+      - name: Clone JAR repository
+        run: |
+          git clone https://github.com/GuchievBashir/jar-repo jar-repo
+          mkdir -p libs
+          cp jar-repo/*.jar libs/
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Run server and Java code in one step
+        working-directory: .
+        run: |
+          python python-server/server.py &
+          sleep 5
+          python server.py > server.log 2>&1 &
+          mvn clean install
+          java -cp "libs/*:target/classes" Main
+
+      - name: List chord images
+        run: ls -R ./chords
+
+      - name: Upload chord images
+        uses: actions/upload-artifact@v3
+        with:
+          name: chord-images
+          path: ./chords
