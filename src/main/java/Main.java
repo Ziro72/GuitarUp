@@ -112,17 +112,21 @@ class SongReader {
   }
 
   private static void addFingersToJson(int[] frets, int barreFret, JsonArray fingersJson) {
+    int fingerNumber = 1;
     for (int string = 1; string <= frets.length; string++) {
       int fret = frets[string - 1];
       if (fret > 0 && fret != barreFret) {
         JsonObject fingerJson = new JsonObject();
-        fingerJson.addProperty("number", string);
+        fingerJson.addProperty("number", fingerNumber);
         fingerJson.addProperty("fret", fret);
         fingerJson.addProperty("string", string);
         fingersJson.add(fingerJson);
+        fingerNumber++;
+        if (fingerNumber > 5) break;
       }
     }
   }
+
 
   private static void sendChordToServer(JsonObject chordJson) {
     try {
