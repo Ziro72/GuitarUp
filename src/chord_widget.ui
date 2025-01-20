@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>520</width>
+    <width>780</width>
     <height>405</height>
    </rect>
   </property>
@@ -30,7 +30,7 @@
   <widget class="QPushButton" name="submitButton">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>650</x>
      <y>346</y>
      <width>111</width>
      <height>41</height>
@@ -52,7 +52,7 @@
   <widget class="QPushButton" name="resetButton">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>520</x>
      <y>346</y>
      <width>111</width>
      <height>41</height>
@@ -76,7 +76,7 @@
     <rect>
      <x>140</x>
      <y>20</y>
-     <width>141</width>
+     <width>130</width>
      <height>30</height>
     </rect>
    </property>
@@ -157,7 +157,7 @@
   <widget class="QLabel" name="labelStrings">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>590</x>
      <y>20</y>
      <width>81</width>
      <height>30</height>
@@ -178,7 +178,7 @@
   <widget class="QGroupBox" name="stringsTable">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>590</x>
      <y>50</y>
      <width>170</width>
      <height>280</height>
@@ -1956,6 +1956,49 @@
      <string>Barre</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QGraphicsView" name="graphicsView">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>50</y>
+     <width>240</width>
+     <height>280</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(48, 49, 49)</string>
+   </property>
+   <property name="backgroundBrush">
+    <brush brushstyle="NoBrush">
+     <color alpha="255">
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+    </brush>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelPreviem">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>20</y>
+     <width>81</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Calibri</family>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Previem</string>
+   </property>
   </widget>
  </widget>
  <resources/>
