@@ -1,4 +1,5 @@
 from Finger import Finger
+from ChordName import ChordName
 from Consts import *
 
 from os import path
@@ -7,26 +8,36 @@ from PIL import Image, ImageDraw, ImageFont
 
 class Chord:
     def __init__(self, name="", fret=0):
-        self.name = name
+        self.name = ChordName(name)
         self.start_fret = fret
         self.barre = 0
         self.fingers = [Finger() for _ in range(5)]
         self.str_states = ["Open" for _ in range(6)]
 
-        self.font = ImageFont.truetype("./src/ARLRDBD.TTF", CHORD_NAME_FONT)
-        self.small_font = ImageFont.truetype("./src/ARLRDBD.TTF", CHORD_NAME_SMALL_FONT)
+        self.font = ImageFont.truetype(f"./src/{FONT_FILE}", FONT_SIZE)
+        self.small_font = ImageFont.truetype(f"./src/{FONT_FILE}", FONT_SMALL_SIZE)
+
+        self.clear_default_chord()
+
+    def clear_default_chord(self):
+        new_chord = Image.open(f"src/chords/chord0.png")
+        new_chord.save(f"./src/tmp/chord.png")
 
     def change_name(self, name):
-        self.name = name
+        self.name.update(name)
+        self.draw_chord()
 
     def change_start_fret(self, fret):
         self.start_fret = fret
+        self.draw_chord()
 
     def edit_barre(self, barre):
         self.barre = barre
+        self.draw_chord()
 
     def assign_finger(self, number, fret, string):
         self.fingers[number].edit(fret, string)
+        self.draw_chord()
 
     def finger(self, number):
         return self.fingers[number]
@@ -37,6 +48,7 @@ class Chord:
             self.update_strings()
         else:
             self.str_states[number] = 'Muted'
+        self.draw_chord()
 
     def update_finger(self, finger, states):
         string = finger.string
@@ -51,45 +63,7 @@ class Chord:
         for i in range(5):
             self.update_finger(self.fingers[i], new_states)
         self.str_states = new_states
-
-    def check_key(self, name, key):
-        if len(name) <= len(key) or name[:len(key)] != key:
-            return 0
-        res = len(key) + 1
-        if len(name) > res and name[res].isdigit():
-            res += 1
-        return res
-
-    def word_push(self, array, word, state):
-        if word:
-            array.append((word, state))
-        return ''
-
-    def refactor_name(self, name):
-        array = []
-        index = 0
-        word = ''
-        while index < len(name):
-            if name[index] == '(':
-                word = self.word_push(array, word, False)
-                while index != len(name) and name[index - 1] != ')':
-                    word += name[index]
-                    index += 1
-                word = self.word_push(array, word, True)
-                continue
-            for key in KEY_WORDS:
-                word_length = self.check_key(name[index:], key)
-                if word_length == 0:
-                    continue
-                word = self.word_push(array, word, False)
-                array.append((name[index:index + word_length], True))
-                index += word_length
-                break
-            else:
-                word += name[index]
-                index += 1
-        self.word_push(array, word, False)
-        return array
+        self.draw_chord()
 
     def draw_string(self, chord_image, number):
         if self.str_states[number] == 'Pinched':
@@ -120,7 +94,8 @@ class Chord:
 
     def draw_name(self, chord_image):
         image = Image.new("RGBA", NAME_SIZE, (0, 0, 0, 0))
-        name_parts = self.refactor_name(self.name.replace('-', '/'))
+        self.name.replace('-', '/')
+        name_parts = self.name.array
         drawer = ImageDraw.Draw(image)
         x, y = NAME_CORDS
         for part in name_parts:
@@ -135,9 +110,13 @@ class Chord:
             self.draw_finger(new_chord, i)
         for i in range(6):
             self.draw_string(new_chord, i)
-
         self.draw_name(new_chord)
-        new_name = self.name.replace('/', '-')
+        new_chord.save(f"./src/tmp/chord.png")
+
+    def save_chord(self):
+        new_chord = Image.open(f"./src/tmp/chord.png")
+        self.name.replace('/', '-')
+        new_name = self.name.name
         counter = 1
         while path.exists(f"./chords/{new_name}_{counter}.png"):
             counter += 1
