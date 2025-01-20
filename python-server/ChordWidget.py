@@ -7,15 +7,16 @@ from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene
 from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
 
+
 from Chord import Chord
 from Finger import Finger
 from Consts import *
 
 
-class Widget(QDialog):
+class ChordWidget(QDialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi("src/chord_widget.ui", self)
+        uic.loadUi("./src/chord_widget.ui", self)
 
         self.chord = Chord()
 
@@ -60,8 +61,8 @@ class Widget(QDialog):
         ch_strings = eval(f"self.chooseString{ind}")
         ch_frets = eval(f"self.chooseFret{ind}")
 
-        ch_strings.toggled()
-        ch_frets.toggled()
+        ch_strings.setEnabled(not ch_strings.isEnabled())
+        ch_frets.setEnabled(not ch_frets.isEnabled())
 
         if ind == 1:
             self.chooseBarre.setEnabled(not self.chooseBarre.isEnabled())
@@ -156,6 +157,6 @@ class Widget(QDialog):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Widget()
+    ex = ChordWidget()
     ex.show()
     sys.exit(app.exec_())
