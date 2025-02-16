@@ -54,7 +54,7 @@ jobs:
       - name: Run server and Java code in one step
         working-directory: .
         run: |
-          python python-server/server.py &
+          python server.py &
           sleep 5
           python server.py > server.log 2>&1 &
           mvn clean install
