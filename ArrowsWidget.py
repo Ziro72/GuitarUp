@@ -19,7 +19,6 @@ class ArrowsWidget(QDialog):
         self.arrows = Paint()
         self.arrows.clear_all()
 
-
         self.resetButton.clicked.connect(self.reset_pressed)
         self.submitButton.clicked.connect(self.submit_pressed)
 
@@ -45,7 +44,7 @@ class ArrowsWidget(QDialog):
         self.lineEditChord.textChanged.connect(self.arrow_chord_changed)
         self.comboBoxType.currentTextChanged.connect(self.arrow_type_changed)
         self.checkBoxAccent.stateChanged.connect(self.arrow_accent_changed)
-        self.checkBoxState.stateChanged.connect(self.arrow_state_changed)
+        self.lineEditState.textChanged.connect(self.arrow_state_changed)
 
         self.radioButtonUp.clicked.connect(self.arrow_direction_changed)
         self.radioButtonDown.clicked.connect(self.arrow_direction_changed)
@@ -83,8 +82,8 @@ class ArrowsWidget(QDialog):
         self.update_visual_display()
 
     def arrow_state_changed(self):
-        status = self.checkBoxState.isChecked()
-        self.arrows.set_side(self.actual_arrow, int(status))
+        status = self.lineEditState.text()
+        self.arrows.set_name(self.actual_arrow, status)
         self.update_visual_display()
 
     def arrow_direction_changed(self):

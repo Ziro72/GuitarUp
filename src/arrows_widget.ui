@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>870</width>
-    <height>340</height>
+    <height>363</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>19</x>
-     <y>19</y>
+     <y>40</y>
      <width>652</width>
      <height>212</height>
     </rect>
@@ -27,12 +27,15 @@
      <family>Calibri</family>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(48, 49, 49)</string>
+   </property>
   </widget>
   <widget class="QGroupBox" name="arrowEditor">
    <property name="geometry">
     <rect>
      <x>690</x>
-     <y>20</y>
+     <y>41</y>
      <width>160</width>
      <height>210</height>
     </rect>
@@ -58,6 +61,8 @@
      <font>
       <family>Calibri</family>
       <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -80,6 +85,8 @@
      <font>
       <family>Calibri</family>
       <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -92,9 +99,9 @@
    <widget class="QLabel" name="labelAccent">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>64</width>
+      <x>10</x>
+      <y>170</y>
+      <width>70</width>
       <height>30</height>
      </rect>
     </property>
@@ -102,6 +109,8 @@
      <font>
       <family>Calibri</family>
       <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -114,8 +123,8 @@
    <widget class="QLabel" name="labelState">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>170</y>
+      <x>10</x>
+      <y>90</y>
       <width>64</width>
       <height>30</height>
      </rect>
@@ -124,17 +133,28 @@
      <font>
       <family>Calibri</family>
       <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
     <property name="text">
-     <string>Muted:</string>
+     <string>Mute:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButtonUp">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>90</y>
+      <y>130</y>
       <width>60</width>
       <height>30</height>
      </rect>
@@ -143,6 +163,8 @@
      <font>
       <family>Calibri</family>
       <pointsize>14</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -153,7 +175,7 @@
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>90</y>
+      <y>130</y>
       <width>71</width>
       <height>30</height>
      </rect>
@@ -208,24 +230,6 @@
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>130</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBoxState">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
       <y>170</y>
       <width>31</width>
       <height>31</height>
@@ -256,14 +260,45 @@
      </font>
     </property>
    </widget>
+   <widget class="QComboBox" name="comboBoxState">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>92</y>
+      <width>70</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <item>
+     <property name="text">
+      <string>None</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>PM</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Muted</string>
+     </property>
+    </item>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="arrowPositions">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>250</y>
+     <y>271</y>
      <width>651</width>
-     <height>70</height>
+     <height>80</height>
     </rect>
    </property>
    <property name="font">
@@ -280,7 +315,7 @@
       <x>10</x>
       <y>10</y>
       <width>31</width>
-      <height>51</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -299,7 +334,7 @@
       <x>50</x>
       <y>10</y>
       <width>31</width>
-      <height>51</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -318,7 +353,7 @@
       <x>130</x>
       <y>10</y>
       <width>31</width>
-      <height>51</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -337,7 +372,7 @@
       <x>170</x>
       <y>10</y>
       <width>31</width>
-      <height>51</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -356,7 +391,7 @@
       <x>210</x>
       <y>10</y>
       <width>31</width>
-      <height>51</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -375,7 +410,7 @@
       <x>250</x>
       <y>10</y>
       <width>31</width>
-      <height>51</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -394,7 +429,7 @@
       <x>290</x>
       <y>10</y>
       <width>31</width>
-      <height>51</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -413,7 +448,7 @@
       <x>330</x>
       <y>10</y>
       <width>31</width>
-      <height>51</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -432,7 +467,7 @@
       <x>370</x>
       <y>10</y>
       <width>31</width>
-      <height>51</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -451,7 +486,7 @@
       <x>90</x>
       <y>10</y>
       <width>31</width>
-      <height>51</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -470,7 +505,7 @@
       <x>450</x>
       <y>10</y>
       <width>31</width>
-      <height>50</height>
+      <height>60</height>
      </rect>
     </property>
     <property name="font">
@@ -489,7 +524,7 @@
       <x>490</x>
       <y>10</y>
       <width>31</width>
-      <height>50</height>
+      <height>60</height>
      </rect>
     </property>
     <property name="font">
@@ -508,7 +543,7 @@
       <x>410</x>
       <y>10</y>
       <width>31</width>
-      <height>50</height>
+      <height>60</height>
      </rect>
     </property>
     <property name="font">
@@ -527,7 +562,7 @@
       <x>530</x>
       <y>10</y>
       <width>31</width>
-      <height>50</height>
+      <height>60</height>
      </rect>
     </property>
     <property name="font">
@@ -546,7 +581,7 @@
       <x>610</x>
       <y>10</y>
       <width>31</width>
-      <height>50</height>
+      <height>60</height>
      </rect>
     </property>
     <property name="font">
@@ -565,7 +600,7 @@
       <x>570</x>
       <y>10</y>
       <width>31</width>
-      <height>50</height>
+      <height>60</height>
      </rect>
     </property>
     <property name="font">
@@ -583,15 +618,17 @@
    <property name="geometry">
     <rect>
      <x>770</x>
-     <y>290</y>
+     <y>312</y>
      <width>80</width>
-     <height>30</height>
+     <height>36</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Calibri</family>
-     <pointsize>14</pointsize>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
@@ -601,10 +638,10 @@
   <widget class="QLineEdit" name="lineEditName">
    <property name="geometry">
     <rect>
-     <x>750</x>
-     <y>252</y>
-     <width>100</width>
-     <height>27</height>
+     <x>760</x>
+     <y>273</y>
+     <width>90</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="font">
@@ -618,7 +655,7 @@
    <property name="geometry">
     <rect>
      <x>690</x>
-     <y>250</y>
+     <y>273</y>
      <width>60</width>
      <height>30</height>
     </rect>
@@ -626,7 +663,9 @@
    <property name="font">
     <font>
      <family>Calibri</family>
-     <pointsize>14</pointsize>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
@@ -640,7 +679,49 @@
    <property name="geometry">
     <rect>
      <x>690</x>
-     <y>290</y>
+     <y>312</y>
+     <width>70</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Calibri</family>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Reset</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelPreviem">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>81</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Calibri</family>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Previem</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelArrow">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>10</y>
      <width>70</width>
      <height>30</height>
     </rect>
@@ -648,11 +729,16 @@
    <property name="font">
     <font>
      <family>Calibri</family>
-     <pointsize>14</pointsize>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string>Reset</string>
+    <string>Arrow</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
  </widget>
