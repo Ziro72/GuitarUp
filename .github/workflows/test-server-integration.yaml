@@ -54,7 +54,7 @@ jobs:
       - name: Run server and Java code in one step
         working-directory: .
         run: |
-          python python-server/server.py &
+          python server.py &
           sleep 5
           python server.py > server.log 2>&1 &
           mvn clean install
@@ -64,7 +64,7 @@ jobs:
         run: ls -R ./chords
 
       - name: Upload chord images
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: chord-images
           path: ./chords
