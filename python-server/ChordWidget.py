@@ -16,7 +16,7 @@ from Consts import *
 class ChordWidget(QDialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi("./src/chord_widget.ui", self)
+        uic.loadUi("../src/chord_widget.ui", self)
 
         self.chord = Chord()
 

@@ -13,6 +13,13 @@ class Paint:
             return
         self.arrow_array = arrow_array
 
+    def clear_one(self, image, column_number, line_number, width=WIDTH_ARROW, height=HEIGHT_ARROW):
+        pixels = image.load()
+        for x in range(column_number, column_number + width):
+            for y in range(line_number, line_number + height):
+                pixels[x, y] = (255, 255, 255, 0)
+        image.save("./src/tmp/arrows.png")
+
     def clear(self, images, column_number, line_number, width=WIDTH_ARROW, height=HEIGHT_ARROW):
         for image in images:
             pixels = image.load()
@@ -25,7 +32,7 @@ class Paint:
         for i in range(len(self.arrow_array)):
             self.arrow_array[i] = Arrow()
         with Image.open(name) as image:
-            self.clear((image,), 0, (self.size[1] - HEIGHT_ARROW + 1) // 2, self.size[0])
+            self.clear_one(image, 0, (self.size[1] - HEIGHT_ARROW + 1) // 2, self.size[0])
 
     def draw_arrow_two(self, images, number, column_number,
                    line_number, width=WIDTH_ARROW, height=HEIGHT_ARROW):
@@ -88,7 +95,7 @@ class Paint:
     def update_storage_position(self, position, name_arrow="./src/tmp/arrows.png"):
         with Image.open(name_arrow) as image:
             width_one_arrow = self.size[0] // len(self.arrow_array)
-            self.clear((image,), position * width_one_arrow,
+            self.clear_one(image, position * width_one_arrow,
                        (self.size[1] - HEIGHT_ARROW + 1) // 2, width_one_arrow)
             self.draw_arrow_one(image, position, position * width_one_arrow,
                             (self.size[1] - HEIGHT_ARROW + 1) // 2, width_one_arrow)
