@@ -129,7 +129,6 @@ class Paint:
 
     def set_status(self, position, new_status, name_arrow="./src/tmp/arrows.png"):
         self.arrow_array[position].status = new_status
-        print('a')
         self.update_storage_position(position, name_arrow)
 
     def set_direction(self, position, new_direction, name_arrows="./src/tmp/arrows.png"):
