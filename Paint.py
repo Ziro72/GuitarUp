@@ -13,26 +13,18 @@ class Paint:
             return
         self.arrow_array = arrow_array
 
-    def clear_one(self, image, column_number, line_number, width=WIDTH_ARROW, height=HEIGHT_ARROW):
+    def clear_one(self, image, column_number, line_number, name="./src/tmp/arrows.png", width=WIDTH_ARROW, height=HEIGHT_ARROW):
         pixels = image.load()
         for x in range(column_number, column_number + width):
             for y in range(line_number, line_number + height):
                 pixels[x, y] = (255, 255, 255, 0)
-        image.save("./src/tmp/arrows.png")
-
-    def clear(self, images, column_number, line_number, width=WIDTH_ARROW, height=HEIGHT_ARROW):
-        for image in images:
-            pixels = image.load()
-            for x in range(column_number, column_number + width):
-                for y in range(line_number, line_number + height):
-                    pixels[x, y] = (255, 255, 255, 0)
-            image.save("./src/tmp/arrows.png")
+        image.save(name)
 
     def clear_all(self, name="./src/tmp/arrows.png"):
         for i in range(len(self.arrow_array)):
             self.arrow_array[i] = Arrow()
         with Image.open(name) as image:
-            self.clear_one(image, 0, (self.size[1] - HEIGHT_ARROW + 1) // 2, self.size[0])
+            self.clear_one(image, 0, (self.size[1] - HEIGHT_ARROW + 1) // 2, name, self.size[0])
 
     def draw_arrow_two(self, images, number, column_number,
                    line_number, width=WIDTH_ARROW, height=HEIGHT_ARROW):
@@ -41,12 +33,11 @@ class Paint:
         arrow = self.arrow_array[number]
         if arrow.type == 0:
             return
-        c = "-" * (arrow.direction == 1)
-        arrow_name = "./src/arrows/" + c + str(arrow.type) + str(arrow.color) + str(arrow.side)
-        with Image.open(arrow_name + ".png") as image_arrow:
+        arrow_name = "./src/arrows/" + str(arrow.type) + str(arrow.status) + str(arrow.direction) + str(arrow.accent)
+        with Image.open(arrow_name + "0.png") as image_arrow:
             new_image_arrow = image_arrow.resize(size, Image.Resampling.LANCZOS)
             images[0].paste(new_image_arrow, position, new_image_arrow)
-        with Image.open(arrow_name + "0.png") as image_arrow:
+        with Image.open(arrow_name + "1.png") as image_arrow:
             new_image_arrow = image_arrow.resize(size, Image.Resampling.LANCZOS)
             images[1].paste(new_image_arrow, position, new_image_arrow)
 
@@ -58,9 +49,8 @@ class Paint:
         arrow = self.arrow_array[number]
         if arrow.type == 0:
             return
-        c = "-" * (arrow.direction == 1)
-        arrow_name = "./src/arrows/" + c + str(arrow.type) + str(arrow.color) + str(arrow.side)
-        with Image.open(arrow_name + ".png") as image_arrow:
+        arrow_name = "./src/arrows/" + str(arrow.type) + str(arrow.status) + str(arrow.direction) + str(arrow.accent)
+        with Image.open(arrow_name + "1.png") as image_arrow:
             new_image_arrow = image_arrow.resize(size, Image.Resampling.LANCZOS)
             image.paste(new_image_arrow, position, new_image_arrow)
 
@@ -80,15 +70,18 @@ class Paint:
         self.size = new_size
         name_arrow = "./arrows/" + self.global_name + ".png"
         name_hide_arrow = "./arrows/hide_" + self.global_name + ".png"
-        self.draw_line((image, hide_image), new_size)
+        self.draw_line((hide_image, image), new_size)
         image.save(name_arrow)
         hide_image.save(name_hide_arrow)
 
     def update_storage_all(self, new_arrows, name_arrow=NAME_ARROWS,
                            name_hide_arrow=NAME_HIDE_ARROWS):
-        with Image.open(name_arrow) as image, Image.open(name_hide_arrow) as hide_image:
-            self.clear((image, hide_image), 0, (self.size[1] - HEIGHT_ARROW + 1) // 2,
+        with Image.open(name_arrow) as image:
+            self.clear_one(image, 0, (self.size[1] - HEIGHT_ARROW + 1) // 2, name_arrow,
                        self.size[0])
+        with Image.open(name_hide_arrow) as hide_image:
+            self.clear_one(image, 0, (self.size[1] - HEIGHT_ARROW + 1) // 2, name_hide_arrow,
+                           self.size[0])
         self.arrow_array = new_arrows
         self.draw(name_arrow, name_hide_arrow)
 
@@ -96,7 +89,7 @@ class Paint:
         with Image.open(name_arrow) as image:
             width_one_arrow = self.size[0] // len(self.arrow_array)
             self.clear_one(image, position * width_one_arrow,
-                       (self.size[1] - HEIGHT_ARROW + 1) // 2, width_one_arrow)
+                       (self.size[1] - HEIGHT_ARROW + 1) // 2, name_arrow, width_one_arrow)
             self.draw_arrow_one(image, position, position * width_one_arrow,
                             (self.size[1] - HEIGHT_ARROW + 1) // 2, width_one_arrow)
             image.save(name_arrow)
@@ -107,11 +100,11 @@ class Paint:
     def get_type(self, position):
         return self.arrow_array[position].type
 
-    def get_color(self, position):
-        return self.arrow_array[position].color
+    def get_accent(self, position):
+        return self.arrow_array[position].accent
 
-    def get_side(self, position):
-        return self.arrow_array[position].side
+    def get_status(self, position):
+        return self.arrow_array[position].status
 
     def get_direction(self, position):
         return self.arrow_array[position].direction
@@ -130,12 +123,13 @@ class Paint:
         self.arrow_array[position].type = new_type
         self.update_storage_position(position, name_arrow)
 
-    def set_color(self, position, new_color, name_arrow="./src/tmp/arrows.png"):
-        self.arrow_array[position].color = new_color
+    def set_accent(self, position, new_accent, name_arrow="./src/tmp/arrows.png"):
+        self.arrow_array[position].accent = new_accent
         self.update_storage_position(position, name_arrow)
 
-    def set_side(self, position, new_side, name_arrow="./src/tmp/arrows.png"):
-        self.arrow_array[position].side = new_side
+    def set_status(self, position, new_status, name_arrow="./src/tmp/arrows.png"):
+        self.arrow_array[position].status = new_status
+        print('a')
         self.update_storage_position(position, name_arrow)
 
     def set_direction(self, position, new_direction, name_arrows="./src/tmp/arrows.png"):

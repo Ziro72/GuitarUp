@@ -43,8 +43,8 @@ class ArrowsWidget(QDialog):
 
         self.lineEditChord.textChanged.connect(self.arrow_chord_changed)
         self.comboBoxType.currentTextChanged.connect(self.arrow_type_changed)
+        self.comboBoxState.currentTextChanged.connect(self.arrow_state_changed)
         self.checkBoxAccent.stateChanged.connect(self.arrow_accent_changed)
-        self.lineEditState.textChanged.connect(self.arrow_state_changed)
 
         self.radioButtonUp.clicked.connect(self.arrow_direction_changed)
         self.radioButtonDown.clicked.connect(self.arrow_direction_changed)
@@ -55,8 +55,8 @@ class ArrowsWidget(QDialog):
         index = self.actual_arrow
         self.lineEditChord.setText(self.arrows.get_name(index))
         self.comboBoxType.setCurrentIndex(self.arrows.get_type(index))
-        self.checkBoxAccent.setChecked(self.arrows.get_color(index))
-        self.checkBoxState.setChecked(self.arrows.get_side(index))
+        self.comboBoxState.setCurrentIndex(self.arrows.get_status(index))
+        self.checkBoxAccent.setChecked(self.arrows.get_accent(index))
 
         is_down = self.arrows.get_direction(index)
         self.radioButtonDown.setChecked(is_down)
@@ -73,17 +73,17 @@ class ArrowsWidget(QDialog):
 
     def arrow_type_changed(self):
         new_type = self.comboBoxType.currentIndex()
-        self.arrows.set_type(self.actual_arrow, new_type)
+        self.arrows.set_type(self.actual_arrow, int(new_type))
+        self.update_visual_display()
+
+    def arrow_state_changed(self):
+        new_state = self.comboBoxState.currentIndex()
+        self.arrows.set_status(self.actual_arrow, int(new_state))
         self.update_visual_display()
 
     def arrow_accent_changed(self):
         status = self.checkBoxAccent.isChecked()
-        self.arrows.set_color(self.actual_arrow, int(status))
-        self.update_visual_display()
-
-    def arrow_state_changed(self):
-        status = self.lineEditState.text()
-        self.arrows.set_name(self.actual_arrow, status)
+        self.arrows.set_accent(self.actual_arrow, int(status))
         self.update_visual_display()
 
     def arrow_direction_changed(self):
