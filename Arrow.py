@@ -1,22 +1,22 @@
 class Arrow:
-    def __init__(self, type=0, color=0, status=0, direction=0, name=""):
+    def __init__(self, type=0, status=0, direction=0, accent=0, name=""):
         self.type = type
-        self.color = color
         self.status = status
         self.direction = direction
+        self.accent = accent
         self.name = name
 
-    def new_size(self, new_type):
-        self.type = new_type
+    def new_type(self, new_type_):
+        self.type = new_type_
 
-    def new_color(self, new_color):
-        self.color = new_color
+    def new_accent(self, new_accent_):
+        self.accent = new_accent_
 
-    def new_side(self, new_status):
-        self.status = new_status
+    def new_status(self, new_status_):
+        self.status = new_status_
 
-    def new_direction(self, new_direction):
-        self.direction = new_direction
+    def new_direction(self, new_direction_):
+        self.direction = new_direction_
 
-    def new_name(self, new_name):
-        self.name = new_name
+    def new_name(self, new_name_):
+        self.name = new_name_
