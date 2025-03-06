@@ -7,8 +7,21 @@ from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene
 from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
 
-from Paint import Paint
+from Paint import Paint, Image
 from Arrow import Arrow
+
+def clean_():
+    with Image.open("./src/tmp/arrows.png") as arrows, Image.open("./src/tmp/copy_arrows.png") as copy_arrows:
+        pixels = arrows.load()
+        for i in range(arrows.size[0]):
+            for j in range(arrows.size[1]):
+                pixels[i, j] = (255, 255, 255, 0)
+        pixels_copy = copy_arrows.load()
+        for i in range(copy_arrows.size[0]):
+            for j in range(copy_arrows.size[1]):
+                pixels_copy[i, j] = (255, 255, 255, 0)
+        arrows.save("./src/tmp/arrows.png")
+        copy_arrows.save("./src/tmp/copy_arrows.png")
 
 
 class ArrowsWidget(QDialog):
@@ -17,7 +30,8 @@ class ArrowsWidget(QDialog):
         uic.loadUi("src/arrows_widget.ui", self)
 
         self.arrows = Paint()
-        self.arrows.clear_all()
+        self.arrows.clear_all("./src/tmp/arrows.png")
+        self.arrows.clear_all("./src/tmp/copy_arrows.png")
 
         self.resetButton.clicked.connect(self.reset_pressed)
         self.submitButton.clicked.connect(self.submit_pressed)
@@ -95,7 +109,8 @@ class ArrowsWidget(QDialog):
         self.arrows.draw()
 
     def reset_pressed(self):
-        self.arrows.clear_all()
+        self.arrows.clear_all("./src/tmp/arrows.png")
+        self.arrows.clear_all("./src/tmp/copy_arrows.png")
         self.update_arrow_menu()
         self.update_visual_display()
 
@@ -108,9 +123,10 @@ class ArrowsWidget(QDialog):
         scene.addPixmap(pixmap)
         self.graphicsView.setScene(scene)
 
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = ArrowsWidget()
+    #ex.destroyed.connect(clean_)
     ex.show()
+    app.aboutToQuit.connect(clean_)
     sys.exit(app.exec_())
