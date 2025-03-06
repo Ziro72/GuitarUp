@@ -17,7 +17,8 @@ class ArrowsWidget(QDialog):
         uic.loadUi("src/arrows_widget.ui", self)
 
         self.arrows = Paint()
-        self.arrows.clear_all()
+        self.arrows.clear_all("./src/tmp/arrows.png")
+        self.arrows.clear_all("./src/tmp/copy_arrows.png")
 
         self.resetButton.clicked.connect(self.reset_pressed)
         self.submitButton.clicked.connect(self.submit_pressed)
@@ -95,7 +96,8 @@ class ArrowsWidget(QDialog):
         self.arrows.draw()
 
     def reset_pressed(self):
-        self.arrows.clear_all()
+        self.arrows.clear_all("./src/tmp/arrows.png")
+        self.arrows.clear_all("./src/tmp/copy_arrows.png")
         self.update_arrow_menu()
         self.update_visual_display()
 
