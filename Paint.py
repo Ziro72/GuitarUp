@@ -27,7 +27,9 @@ class Paint:
             self.clear_one(image, 0, 0, name, image.size[0], image.size[1])
 
     def draw_arrow_two(self, images, number, column_number,
-                   line_number, width=WIDTH_ARROW, height=HEIGHT_ARROW):
+                       line_number, width=WIDTH_ARROW,
+                       distance=DISTANCE_BETWEEN_ARROWS,
+                       height=HEIGHT_ARROW):
         position = (column_number, line_number)
         size = (width, height)
         arrow = self.arrow_array[number]
@@ -35,24 +37,28 @@ class Paint:
             return
         arrow_name = "./src/arrows/" + str(arrow.type) + str(arrow.status) + str(arrow.direction) + str(arrow.accent)
         with Image.open(arrow_name + "0.png") as image_arrow:
-            new_image_arrow = image_arrow.resize(size, Image.Resampling.LANCZOS)
-            images[0].paste(new_image_arrow, position, new_image_arrow)
+            images[0].paste(image_arrow, (position[0],
+                                          position[1] + height - image_arrow.size[1]),
+                            image_arrow)
         with Image.open(arrow_name + "1.png") as image_arrow:
-            new_image_arrow = image_arrow.resize(size, Image.Resampling.LANCZOS)
-            images[1].paste(new_image_arrow, position, new_image_arrow)
+            images[1].paste(image_arrow, (position[0],
+                                          position[1] + height - image_arrow.size[1]), image_arrow)
 
 
     def draw_arrow_one(self, image, number, column_number,
-                   line_number, width=WIDTH_ARROW, height=HEIGHT_ARROW):
+                       line_number, width=WIDTH_ARROW, height=HEIGHT_ARROW,
+                       compression_width=COMPRESSION_RATIO_BY_WIDTH,
+                       compression_height=COMPRESSION_RATIO_BY_HEIGHT):
         position = (column_number, line_number)
-        size = (width, height)
         arrow = self.arrow_array[number]
         if arrow.type == 0:
             return
         arrow_name = "./src/arrows/" + str(arrow.type) + str(arrow.status) + str(arrow.direction) + str(arrow.accent)
         with Image.open(arrow_name + "1.png") as image_arrow:
-            new_image_arrow = image_arrow.resize(size, Image.Resampling.LANCZOS)
-            image.paste(new_image_arrow, position, new_image_arrow)
+            new_image_arrow = image_arrow.resize((int(image_arrow.size[0] * compression_width),
+                                                 int(image_arrow.size[1] * compression_height)), Image.Resampling.LANCZOS)
+            image.paste(new_image_arrow, (position[0], position[1] + int(height * compression_height) - new_image_arrow.size[1]),
+                        new_image_arrow)
 
     def draw_line(self, images, size=(PICTURE_WIDTH, PICTURE_HEIGHT),
                   width_one_arrow = WIDTH_ARROW, distance_one_arrow = DISTANCE_BETWEEN_ARROWS):
@@ -61,23 +67,19 @@ class Paint:
         count = len(self.arrow_array)
         for position in range(count):
             x = distance_one_arrow + position * (width_one_arrow + distance_one_arrow)
-            self.draw_arrow_two(images, position, x, line_number, width_one_arrow)# Две последние можно вообще не указывать,
+            self.draw_arrow_two(images, position, x, line_number,
+                                width_one_arrow,
+                                distance_one_arrow)# Две последние можно вообще не указывать,
                                                                               # если хочется сохранить качество стрелочек
 
-    def draw(self, name_arrow=NAME_ARROWS, name_hide_arrow=NAME_HIDE_ARROWS,
-             original_size=(DISTANCE_BETWEEN_ARROWS + MASSIVE_SIZE
-                            * (WIDTH_ARROW + DISTANCE_BETWEEN_ARROWS), 3 * HEIGHT_ARROW),
-             new_size=(PICTURE_WIDTH, PICTURE_HEIGHT), fl = False):
+    def draw(self, original_size=(DISTANCE_BETWEEN_ARROWS +
+                                  MASSIVE_SIZE * (WIDTH_ARROW + DISTANCE_BETWEEN_ARROWS), 3 * HEIGHT_ARROW)):
         image = Image.new("RGBA", original_size, (255, 255, 255, 0))
         hide_image = Image.new("RGBA", original_size, (255, 255, 255, 0))
         self.size = original_size
         name_arrow = "./arrows/" + self.global_name + ".png"
         name_hide_arrow = "./arrows/hide_" + self.global_name + ".png"
         self.draw_line((hide_image, image), original_size)
-        if fl:
-            (image.resize(new_size, Image.Resampling.LANCZOS)).save(name_arrow)
-            (hide_image.resize(new_size, Image.Resampling.LANCZOS)).save(name_hide_arrow)
-            return
         image.save(name_arrow)
         hide_image.save(name_hide_arrow)
 
@@ -95,18 +97,22 @@ class Paint:
     def update_storage_position(self, position, copy_name_arrow="./src/tmp/copy_arrows.png",
                                 name_arrow="./src/tmp/arrows.png",
                                 width_one_arrow=WIDTH_ARROW,
+                                height_one_arrow=HEIGHT_ARROW,
                                 new_size=(PICTURE_WIDTH, PICTURE_HEIGHT),
                                 distance=DISTANCE_BETWEEN_ARROWS,
                                 original_size=(DISTANCE_BETWEEN_ARROWS + MASSIVE_SIZE
-                                               * (WIDTH_ARROW + DISTANCE_BETWEEN_ARROWS), 3 * HEIGHT_ARROW)):
+                                               * (WIDTH_ARROW + DISTANCE_BETWEEN_ARROWS), 3 * HEIGHT_ARROW),
+                                compression_width=COMPRESSION_RATIO_BY_WIDTH,
+                                compression_height=COMPRESSION_RATIO_BY_HEIGHT):
         with Image.open(copy_name_arrow) as image:
-            if original_size != image.size:
-                image = image.resize(original_size)
+            if int(original_size[0] * compression_width) != image.size[0] or int(original_size[1] * compression_height) != image.size[1]:
+                image = image.resize((int(original_size[0] * compression_width), int(original_size[1] * compression_height)), Image.Resampling.LANCZOS)
             self.size = image.size
-            self.clear_one(image, distance + position * (width_one_arrow + distance),
-                       (self.size[1] - HEIGHT_ARROW + 1) // 2, copy_name_arrow, width_one_arrow)
-            self.draw_arrow_one(image, position, distance + position * (width_one_arrow + distance),
-                            (self.size[1] - HEIGHT_ARROW + 1) // 2, width_one_arrow)
+            self.clear_one(image, int((distance + position * (width_one_arrow + distance)) * compression_width),
+                           (self.size[1] - int(compression_height * HEIGHT_ARROW) + 1) // 2, copy_name_arrow, int(width_one_arrow * compression_width),
+                           int(height_one_arrow * compression_height))
+            self.draw_arrow_one(image, position, int((distance + position * (width_one_arrow + distance)) * compression_width),
+                                (self.size[1] - int(compression_height * HEIGHT_ARROW) + 1) // 2)
             image.save(copy_name_arrow)
             (image.resize(new_size, Image.Resampling.LANCZOS)).save(name_arrow)
 
