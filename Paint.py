@@ -27,4 +27,4 @@ class Paint:
                                background_image)
             finale_image.paste(image, (0, 0),
                                image)
-            return finale_image
+            return finale_image.copy()
