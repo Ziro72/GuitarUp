@@ -7,9 +7,9 @@ from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene
 from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
 
-from Paint import Paint, Image
+from Arrows_paint import ArrowPaint, Image
 from Consts import NAME_ARROW_WIDGET, NAME_COPY_ARROW_WIDGET
-from Arrow import Arrow
+from Arrow_class import Arrow
 
 
 class ArrowsWidget(QDialog):
@@ -17,7 +17,7 @@ class ArrowsWidget(QDialog):
         super().__init__()
         uic.loadUi("src/arrows_widget.ui", self)
 
-        self.arrows = Paint()
+        self.arrows = ArrowPaint()
         self.arrows.clear_all_arrows_copy(NAME_COPY_ARROW_WIDGET)
 
         self.resetButton.clicked.connect(self.reset_pressed)
@@ -112,7 +112,6 @@ class ArrowsWidget(QDialog):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = ArrowsWidget()
-    #ex.destroyed.connect(clean_)
     ex.show()
     app.aboutToQuit.connect(ex.arrows.clear_copy)
     sys.exit(app.exec_())

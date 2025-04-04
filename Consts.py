@@ -44,3 +44,9 @@ NAME_COPY_ARROW_WIDGET = "./src/tmp/copy_arrows.png"
 PATH_ARROWS = "./arrows/"
 PATH_HIDE_ARROWS = "./arrows/hide_"
 PATH_ARROWS_WIDGET = "./src/arrows/"
+
+
+#for paint
+DEFAULT_NAME_BACKGROUND_IMAGE="./src/background/default_background.png"
+WHITE_TRANSPARENT = (255, 255, 255, 0)
+DEFAULT_NAME_FINALE_IMAGE="./src/finale image/default_finale.png"
