@@ -1,10 +1,11 @@
 import random
 from PIL import Image, ImageDraw, ImageOps
 from Arrow_class import Arrow
+from Paint import Paint
 from Consts import *
 
 
-class ArrowPaint:
+class ArrowPaint(Paint):
     def __init__(self, arrow_array=[], new_global_name="arrow",
                  compression=COMPRESSION_RATIO, size=PICTURE_SIZE):
         self.size = size

@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageOps
+from PIL import Image
 from Consts import *
 from functools import singledispatch
 
@@ -17,6 +17,8 @@ def clear_image(name_image, coordinate, size_part):
         image.paste(paste_image, coordinate,
                     paste_image)
         image.save(name_image)
+    paste_image.close()
+    del paste_image
 
 class Paint:
     def __init__(self, size, name_image,
@@ -78,6 +80,8 @@ class Paint:
             image.paste(paste_image, coordinate,
                         paste_image)
             image.save(self.name_image)
+        paste_image.close()
+        del paste_image
 
     def change_position(self, coordinate, new_image,
                         name_finale_image=DEFAULT_NAME_FINALE_IMAGE):
@@ -93,6 +97,8 @@ class Paint:
             finale_image.paste(variable_part_background_image,
                                coordinate)
             finale_image.save(name_finale_image)
+        paste_image.close()
+        del paste_image
 
     def get_name_image(self):
         return self.name_image
