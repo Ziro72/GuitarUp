@@ -37,16 +37,18 @@ COMPRESSION_RATIO_BY_WIDTH = 1  # лучше не делать < 0.12
 COMPRESSION_RATIO_BY_HEIGHT = 1  # лучше не делать < 0.16
 COMPRESSION_RATIO = (COMPRESSION_RATIO_BY_WIDTH, COMPRESSION_RATIO_BY_HEIGHT)
 
-NAME_ARROWS = "./arrows/arrows.png"
+NAME_ARROWS = "./arrows/arrow.png"
 NAME_HIDE_ARROWS = "./arrows/hide.png"
-NAME_ARROW_WIDGET = "./src/tmp/arrows.png"
-NAME_COPY_ARROW_WIDGET = "./src/tmp/copy_arrows.png"
 PATH_ARROWS = "./arrows/"
 PATH_HIDE_ARROWS = "./arrows/hide_"
 PATH_ARROWS_WIDGET = "./src/arrows/"
-
+DEFAULT_NAME_ARROW_BACKGROUND_IMAGE = "./src/backgrounds/background_arrows.png"
+DEFAULT_NAME_ARROW_IMAGE = "./src/tmp/arrows.png"
+DEFAULT_NAME_FINALE_ARROW_IMAGE = "./src/final_images/final_arrows.png"
+DEFAULT_ARROW_END = "1.png"
+DEFAULT_HIDE_ARROW_END = "0.png"
 
 #for paint
-DEFAULT_NAME_BACKGROUND_IMAGE="./src/background/default_background.png"
+DEFAULT_NAME_IMAGE="./src/tmp/default_image.png"
 WHITE_TRANSPARENT = (255, 255, 255, 0)
 DEFAULT_NAME_FINALE_IMAGE="./src/finale image/default_finale.png"
