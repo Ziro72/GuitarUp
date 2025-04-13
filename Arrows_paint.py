@@ -81,10 +81,9 @@ class ArrowPaint(Paint):
         del image
         del hide_image
         for position in range(len(self.arrow_array)):
+            self.paste_arrow(name_hide_arrow, position,
+                             DEFAULT_HIDE_ARROW_END)
             self.paste_arrow(name_arrow, position)
-            self.paste_arrow(name_hide_arrow, position, DEFAULT_HIDE_ARROW_END)
-        with Image.open(name_arrow) as image_arrow:
-            image_arrow.save(self.name_image)
 
     def update_storage_all(self, new_arrow_array,
                            name_arrows=DEFAULT_NAME_FINALE_ARROW_IMAGE):
