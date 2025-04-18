@@ -12,7 +12,7 @@ class ArrowPaint(Paint):
                  name_image=DEFAULT_NAME_ARROW_IMAGE,
                  arrow_array=None, new_global_name="arrow",
                  compression=COMPRESSION_RATIO):
-        super().__init__(size, name_background_image, name_image)
+        super().__init__((int(size[0] * compression[0]), int(size[1] * compression[1])), name_background_image, name_image)
         self.global_name = new_global_name
         self.compression = compression
         if arrow_array is None:
@@ -47,17 +47,16 @@ class ArrowPaint(Paint):
         for position in range(len(self.arrow_array)):
             self.clear_one_global(position, name_image)
 
-    def paste_arrow(self, name_image, position, view_arrow=DEFAULT_ARROW_END,
-                        compression_ratio=COMPRESSION_RATIO):
+    def paste_arrow(self, name_image, position, view_arrow=DEFAULT_ARROW_END):
         arrow = self.arrow_array[position]
         if arrow.type == 0:
             return
         arrow_name = (PATH_ARROWS_WIDGET + str(arrow.type) + str(arrow.status) +
                       str(arrow.direction) + str(arrow.accent) + view_arrow)
         with Image.open(arrow_name) as image_arrow:
-            image_arrow = image_arrow.resize((int(image_arrow.size[0] * compression_ratio[0] *
+            image_arrow = image_arrow.resize((int(image_arrow.size[0] *
                                                   self.compression[0]),
-                                                 int(image_arrow.size[1] * compression_ratio[1] *
+                                                 int(image_arrow.size[1] *
                                                      self.compression[1])),
                                                  Image.Resampling.LANCZOS)
             coordinate = (int((DISTANCE_BETWEEN_ARROWS + position
@@ -94,6 +93,11 @@ class ArrowPaint(Paint):
 
     def new_compression(self, compression_ratio=COMPRESSION_RATIO):
         self.compression = compression_ratio
+        self.size = (int(self.size[0] * self.compression[0]), int(self.size[1] * self.compression[1]))
+        with (Image.open(self.name_image) as image,
+              Image.open(self.name_background_image) as background):
+            (image.resize(size, Image.Resampling.LANCZOS)).save(self.name_image)
+            (background.resize(size, Image.Resampling.LANCZOS)).save(self.name_background_image)
 
     def update_storage_position(self, position,
                                 name_arrows=DEFAULT_NAME_FINALE_ARROW_IMAGE,

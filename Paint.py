@@ -23,6 +23,10 @@ class Paint:
     def __init__(self, size, name_background_image,
                  name_image=DEFAULT_NAME_IMAGE):
         self.size = size
+        with (Image.open(name_image) as image,
+              Image.open(name_background_image) as background):
+            (image.resize(size, Image.Resampling.LANCZOS)).save(name_image)
+            (background.resize(size, Image.Resampling.LANCZOS)).save(name_background_image)
         self.name_background_image = name_background_image
         self.name_image = name_image
 
