@@ -12,7 +12,9 @@ class ArrowPaint(Paint):
                  name_image=DEFAULT_NAME_ARROW_IMAGE,
                  arrow_array=None, new_global_name="arrow",
                  compression=COMPRESSION_RATIO):
-        super().__init__((int(size[0] * compression[0]), int(size[1] * compression[1])), name_background_image, name_image)
+        super().__init__((int(size[0] * compression[0]), int(size[1] * compression[1])),
+                         name_background_image, name_image)
+        self.global_size = size
         self.global_name = new_global_name
         self.compression = compression
         if arrow_array is None:
@@ -20,28 +22,26 @@ class ArrowPaint(Paint):
         self.arrow_array = arrow_array
 
     def clear_one(self, position, flag=True):
-        arrow_size = (int(ARROW_SIZE[0] * self.compression[0]),
-                      int(ARROW_SIZE[1] * self.compression[1]))
         image_position = (int((DISTANCE_BETWEEN_ARROWS + position *
                                (ARROW_SIZE[0] + DISTANCE_BETWEEN_ARROWS)) * self.compression[0]),
                           (self.size[1] - int(self.compression[1] * ARROW_SIZE[1]) + 1) // 2)
-        self.clear_rectangle(image_position, arrow_size)
+        self.clear_rectangle(image_position, (int(ARROW_SIZE[0] * self.compression[0]),
+                                              int(ARROW_SIZE[1] * self.compression[1])))
         if flag:
             self.arrow_array[position] = Arrow()
 
     def clear_one_global(self, position,
                          name_image=DEFAULT_NAME_FINALE_ARROW_IMAGE):
-        arrow_size = (int(ARROW_SIZE[0] * self.compression[0]),
-                      int(ARROW_SIZE[1] * self.compression[1]))
         image_position = (int((DISTANCE_BETWEEN_ARROWS + position *
                                (ARROW_SIZE[0] + DISTANCE_BETWEEN_ARROWS)) * self.compression[0]),
                           (self.size[1] - int(self.compression[1] * ARROW_SIZE[1]) + 1) // 2)
-        self.clear_backgrounds_position(image_position, arrow_size, name_image)
+        self.clear_backgrounds_position(image_position, (int(ARROW_SIZE[0] * self.compression[0]),
+                                                         int(ARROW_SIZE[1] * self.compression[1])), name_image)
         self.arrow_array[position] = Arrow()
 
-    def clear_all_arrows(self):
+    def clear_all_arrows(self, flag=True):
         for position in range(len(self.arrow_array)):
-            self.clear_one(position)
+            self.clear_one(position, flag)
 
     def clear_all_arrows_global(self, name_image=DEFAULT_NAME_FINALE_ARROW_IMAGE):
         for position in range(len(self.arrow_array)):
@@ -64,9 +64,18 @@ class ArrowPaint(Paint):
                               self.compression[0]),
                           (self.size[1] - int(self.compression[1] * ARROW_HEIGHT) + 1) // 2 +
                           int(self.compression[1] * ARROW_HEIGHT) - image_arrow.size[1])
-            self.change_position(coordinate, (coordinate[0] + int(ARROW_SIZE[0] * self.compression[0]),
-                                              coordinate[1] + int(ARROW_SIZE[1] * self.compression[1])),
-                                 image_arrow, name_image)
+            if self.name_image == name_image:
+                self.change_rectangle(coordinate, (coordinate[0] +
+                                              int(ARROW_SIZE[0] * self.compression[0]),
+                                              coordinate[1] +
+                                              int(ARROW_SIZE[1] * self.compression[1])),
+                                 image_arrow)
+            else:
+                self.change_position(coordinate, (coordinate[0] +
+                                                  int(ARROW_SIZE[0] * self.compression[0]),
+                                                  coordinate[1] +
+                                                  int(ARROW_SIZE[1] * self.compression[1])),
+                                     image_arrow, name_image)
 
     def save(self, original_size=ORIGINAL_SIZE):
         name_arrow = PATH_ARROWS + self.global_name + ".png"
@@ -79,10 +88,17 @@ class ArrowPaint(Paint):
         hide_image.close()
         del image
         del hide_image
+        old_compression = self.compression
+        self.clear_all_arrows(False)
+        self.new_compression((1, 1))
         for position in range(len(self.arrow_array)):
             self.paste_arrow(name_hide_arrow, position,
                              DEFAULT_HIDE_ARROW_END)
             self.paste_arrow(name_arrow, position)
+        self.clear_all_arrows(False)
+        self.new_compression(old_compression)
+        for position in range(len(self.arrow_array)):
+            self.paste_arrow(self.name_image, position)
 
     def update_storage_all(self, new_arrow_array,
                            name_arrows=DEFAULT_NAME_FINALE_ARROW_IMAGE):
@@ -93,11 +109,12 @@ class ArrowPaint(Paint):
 
     def new_compression(self, compression_ratio=COMPRESSION_RATIO):
         self.compression = compression_ratio
-        self.size = (int(self.size[0] * self.compression[0]), int(self.size[1] * self.compression[1]))
+        self.size = (int(self.global_size[0] * self.compression[0]),
+                     int(self.global_size[1] * self.compression[1]))
         with (Image.open(self.name_image) as image,
               Image.open(self.name_background_image) as background):
-            (image.resize(size, Image.Resampling.LANCZOS)).save(self.name_image)
-            (background.resize(size, Image.Resampling.LANCZOS)).save(self.name_background_image)
+            (image.resize(self.size, Image.Resampling.LANCZOS)).save(self.name_image)
+            (background.resize(self.size, Image.Resampling.LANCZOS)).save(self.name_background_image)
 
     def update_storage_position(self, position,
                                 name_arrows=DEFAULT_NAME_FINALE_ARROW_IMAGE,
