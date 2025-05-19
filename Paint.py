@@ -150,7 +150,9 @@ class Paint:
     def quick_update_size(self):
         with (Image.open(self.name_image) as image,
               Image.open(self.name_background_image) as background):
-            if self.size == image.size:
+            if self.size == image.size and self.size == background.size:
                 return
-            (image.resize(self.size, Image.Resampling.LANCZOS)).save(self.name_image)
-            (background.resize(self.size, Image.Resampling.LANCZOS)).save(self.name_background_image)
+            if self.size != image.size:
+                (image.resize(self.size, Image.Resampling.LANCZOS)).save(self.name_image)
+            if self.size != background.size:
+                (background.resize(self.size, Image.Resampling.LANCZOS)).save(self.name_background_image)

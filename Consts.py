@@ -59,3 +59,6 @@ DEFAULT_NAME_IMAGE="./src/tmp/default_image.png"
 WHITE_TRANSPARENT = (255, 255, 255, 0)
 BLACK_TRANSPARENT = (0, 0, 0, 0)
 DEFAULT_NAME_FINALE_IMAGE="./src/finale image/default_finale.png"
+
+#for tablatures
+DEFAULT_NUMBER_OF_LINES = 6

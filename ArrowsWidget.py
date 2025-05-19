@@ -18,6 +18,7 @@ class ArrowsWidget(QDialog):
 
         self.arrows = ArrowPaint()
         self.arrows.clear_all_arrows_from_finale_image(DEFAULT_NAME_FINALE_ARROW_IMAGE, False, True)
+        self.arrows.update_backgrounds(DEFAULT_NAME_FINALE_ARROW_IMAGE)
 
         self.resetButton.clicked.connect(self.reset_pressed)
         self.submitButton.clicked.connect(self.submit_pressed)
