@@ -1,6 +1,12 @@
 # for chords
 GRID_XS = [907, 769, 630, 492, 354, 216]
 GRID_YS = [413, 561, 719, 877, 1045]
+CHORD_IMAGE_WIDTH = 1000
+CHORD_IMAGE_HEIGHT = 1240
+CHORD_IMAGE_SIZE = (CHORD_IMAGE_WIDTH, CHORD_IMAGE_HEIGHT)
+DEFAULT_NAME_CHORD_BACKGROUND_IMAGE = './src/chords/chord0.png'
+DEFAULT_NAME_CHORD_IMAGE = './src/tmp/chord.png'
+DEFAULT_NAME_FINALE_CHORD_IMAGE = "./src/final_images/finale_chord.png"
 
 STATUS_Y = 280
 SHIFT_FINGERS = 53
@@ -33,14 +39,23 @@ DISTANCE_BETWEEN_ARROWS = 100
 
 ORIGINAL_SIZE = (DISTANCE_BETWEEN_ARROWS + MASSIVE_SIZE * (ARROW_WIDTH + DISTANCE_BETWEEN_ARROWS), 3 * ARROW_HEIGHT)
 
-COMPRESSION_RATIO_BY_WIDTH = 1  # лучше не делать < 0.12
-COMPRESSION_RATIO_BY_HEIGHT = 1  # лучше не делать < 0.16
+COMPRESSION_RATIO_BY_WIDTH = 1  # лучше не делать < 0.1
+COMPRESSION_RATIO_BY_HEIGHT = 1 # лучше не делать < 0.16
 COMPRESSION_RATIO = (COMPRESSION_RATIO_BY_WIDTH, COMPRESSION_RATIO_BY_HEIGHT)
 
-NAME_ARROWS = "./arrows/arrows.png"
+NAME_ARROWS = "./arrows/arrow.png"
 NAME_HIDE_ARROWS = "./arrows/hide.png"
-NAME_ARROW_WIDGET = "./src/tmp/arrows.png"
-NAME_COPY_ARROW_WIDGET = "./src/tmp/copy_arrows.png"
 PATH_ARROWS = "./arrows/"
 PATH_HIDE_ARROWS = "./arrows/hide_"
 PATH_ARROWS_WIDGET = "./src/arrows/"
+DEFAULT_NAME_ARROW_BACKGROUND_IMAGE = "./src/backgrounds/background_arrows.png"
+DEFAULT_NAME_ARROW_IMAGE = "./src/tmp/arrows.png"
+DEFAULT_NAME_FINALE_ARROW_IMAGE = "./src/final_images/final_arrows.png"
+DEFAULT_ARROW_END = "1.png"
+DEFAULT_HIDE_ARROW_END = "0.png"
+
+#for paint
+DEFAULT_NAME_IMAGE="./src/tmp/default_image.png"
+WHITE_TRANSPARENT = (255, 255, 255, 0)
+BLACK_TRANSPARENT = (0, 0, 0, 0)
+DEFAULT_NAME_FINALE_IMAGE="./src/finale image/default_finale.png"
