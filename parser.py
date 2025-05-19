@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Tuple, Set
 from collections import Counter
 
-from Chord import Chord   # класс диаграммы из вашего проекта
+from ChordPaint import Chord   # класс диаграммы из вашего проекта
 
 # ─────────── Справочник kind → суффикс ───────────
 KIND_SUFFIX: Dict[str, str] = {

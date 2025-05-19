@@ -1,6 +1,5 @@
 from Consts import KEY_WORDS
 
-
 class ChordName:
     def __init__(self, name=''):
         self.name = name

@@ -17,7 +17,7 @@ class ArrowsWidget(QDialog):
         uic.loadUi("src/arrows_widget.ui", self)
 
         self.arrows = ArrowPaint()
-        self.arrows.clear_all_arrows_global(DEFAULT_NAME_FINALE_ARROW_IMAGE)
+        self.arrows.clear_all_arrows_from_finale_image(DEFAULT_NAME_FINALE_ARROW_IMAGE, False, True)
 
         self.resetButton.clicked.connect(self.reset_pressed)
         self.submitButton.clicked.connect(self.submit_pressed)
@@ -95,7 +95,7 @@ class ArrowsWidget(QDialog):
         self.arrows.save()
 
     def reset_pressed(self):
-        self.arrows.clear_all_arrows_global(DEFAULT_NAME_FINALE_ARROW_IMAGE)
+        self.arrows.clear_all_arrows_from_finale_image(DEFAULT_NAME_FINALE_ARROW_IMAGE, False, True)
         self.update_arrow_menu()
         self.update_visual_display()
 
@@ -112,5 +112,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = ArrowsWidget()
     ex.show()
-    app.aboutToQuit.connect(ex.arrows.clear_all_arrows_global)
     sys.exit(app.exec_())

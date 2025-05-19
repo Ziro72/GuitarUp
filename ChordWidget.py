@@ -8,7 +8,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
 
 
-from Chord import Chord
+from ChordPaint import ChordPaint
 from Finger import Finger
 from Consts import *
 
@@ -18,7 +18,7 @@ class ChordWidget(QDialog):
         super().__init__()
         uic.loadUi("./src/chord_widget.ui", self)
 
-        self.chord = Chord()
+        self.chord = ChordPaint()
 
         self.resetButton.clicked.connect(self.reset_pressed)
         self.submitButton.clicked.connect(self.submit_pressed)
@@ -148,7 +148,7 @@ class ChordWidget(QDialog):
 
     def update_visual_display(self):
         scene = QGraphicsScene()
-        pixmap = QPixmap("./src/tmp/chord.png")
+        pixmap = QPixmap(DEFAULT_NAME_CHORD_IMAGE)
         width, height = DISPLAY_SIZE
         pixmap = pixmap.scaled(width, height)
         scene.addPixmap(pixmap)

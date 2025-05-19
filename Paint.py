@@ -1,25 +1,21 @@
-from PIL import Image
+from PIL import Image, ImageDraw
 from Consts import *
-from functools import singledispatch
 
-@singledispatch
-def convert(image):
-    return image
-
-@convert.register(str)
-def convert_str(name):
-    with Image.open(name) as image:
-        return image.copy()
+resampling = [Image.Resampling.NEAREST, Image.Resampling.BOX,
+              Image.Resampling.BILINEAR, Image.Resampling.HAMMING,
+              Image.Resampling.BICUBIC, Image.Resampling.LANCZOS]
+resampling_index = 5
 
 def clear_image(name_image, coordinate, size_part):
     if size_part == 0:
         return
-    paste_image = Image.new("RGBA", size_part, WHITE_TRANSPARENT)
     with Image.open(name_image) as image:
-        image.paste(paste_image, coordinate)
+        draw = ImageDraw.Draw(image)
+        draw.rectangle([coordinate[0], coordinate[1],
+                        coordinate[0] + size_part[0],
+                        coordinate[1] + size_part[1]],
+                       fill=WHITE_TRANSPARENT)
         image.save(name_image)
-    paste_image.close()
-    del paste_image
 
 class Paint:
     def __init__(self, size, name_background_image,
@@ -29,95 +25,97 @@ class Paint:
         self.name_image = name_image
         self.quick_update_size()
 
-    def clear_rectangle(self, coordinate, paste_size):
+    def clear_rectangle_background(self, coordinate, paste_size):
         clear_image(self.name_image, coordinate, paste_size)
 
-    def clear_backgrounds_position(self, coordinate, paste_size,
-                          name_finale_image=DEFAULT_NAME_FINALE_IMAGE, clear_image_flag=True):
-        if clear_image_flag:
-            self.clear_rectangle(coordinate, paste_size)
-        size_finale_image = self.size
-        with Image.open(name_finale_image) as image:
-            size_finale_image = image.size
-        finale_coordinate = ((coordinate[0] * size_finale_image[0]) // self.size[0],
-                             (coordinate[1] * size_finale_image[1]) // self.size[1])
-        finale_paste_size = ((paste_size[0] * size_finale_image[0]) // self.size[0],
-                             (paste_size[1] * size_finale_image[1]) // self.size[1])
-        clear_image(name_finale_image, finale_coordinate, finale_paste_size)
+    def clear_rectangle_finale_image(self, coordinate, paste_size,
+                          name_finale_image=DEFAULT_NAME_FINALE_IMAGE, clear_background=False):
+        if clear_background:
+            clear_image(self.name_image, coordinate, paste_size)
         with (Image.open(self.name_background_image) as background_image,
               Image.open(name_finale_image) as finale_image):
+            size_finale_image = finale_image.size
+            finale_coordinate = ((coordinate[0] * size_finale_image[0] + self.size[0] - 1) // self.size[0],
+                                 (coordinate[1] * size_finale_image[1] + self.size[1] - 1) // self.size[1])
+            finale_paste_size = ((paste_size[0] * size_finale_image[0]) // self.size[0],
+                                 (paste_size[1] * size_finale_image[1]) // self.size[1])
             variable_part_background_image = (
                 background_image.crop((coordinate[0], coordinate[1],
                                        coordinate[0] + paste_size[0],
-                                       coordinate[1] + paste_size[1])))
+                                       coordinate[1] + paste_size[1]))).resize(finale_paste_size, resampling[resampling_index])
             finale_image.paste(variable_part_background_image, finale_coordinate)
             finale_image.save(name_finale_image)
 
-    def clear_all(self):
-        self.clear_rectangle((0, 0), self.size)
+    def clear_all_background(self):
+        clear_image(self.name_image, (0, 0), self.size)
 
-    def clear_all_backgrounds(self, name_finale_image=DEFAULT_NAME_FINALE_IMAGE,
-                              clear_image_flag=True):
-        self.clear_backgrounds_position((0, 0), self.size,
-                                        name_finale_image, clear_image_flag)
+    def clear_all_finale_image(self, name_finale_image=DEFAULT_NAME_FINALE_IMAGE,
+                              clear_background=False):
+        self.clear_rectangle_finale_image((0, 0), self.size,
+                                        name_finale_image, clear_background)
 
     def update_backgrounds(self,
                            name_finale_image=DEFAULT_NAME_FINALE_IMAGE):
-        self.clear_all_backgrounds(name_finale_image, False)
+        self.clear_all_finale_image(name_finale_image)
         with (Image.open(self.name_image) as image,
               Image.open(self.name_background_image) as background_image,
               Image.open(name_finale_image) as finale_image):
-            finale_image.paste(background_image.resize(finale_image.size,
-                                                       Image.Resampling.LANCZOS),
-                               (0, 0))
-            finale_image.paste(image.resize(finale_image.size,
-                                            Image.Resampling.LANCZOS),
-                               (0, 0))
+            background_image = background_image.resize(finale_image.size, resampling[resampling_index])
+            image = image.resize(finale_image.size, resampling[resampling_index])
+            finale_image = Image.alpha_composite(background_image, image)
             finale_image.save(name_finale_image)
 
     def merge_backgrounds(self):
         with (Image.open(self.name_image) as image,
               Image.open(self.name_background_image) as background_image):
             finale_image = Image.new("RGBA", self.size, WHITE_TRANSPARENT)
-            finale_image.paste(background_image, (0, 0))
-            finale_image.paste(image, (0, 0))
+            finale_image.alpha_composite(background_image, image)
             return finale_image
 
-    def change_rectangle(self, coordinate_left_up, coordinate_right_down, new_image):
-        paste_image = convert(new_image)
-        clear_image(self.name_image, coordinate_left_up,
-                    (coordinate_right_down[0] - coordinate_left_up[0],
-                     coordinate_right_down[1] - coordinate_left_up[1]))
-        with Image.open(self.name_image) as image:
-            image.paste(paste_image, coordinate_left_up)
-            image.save(self.name_image)
-        paste_image.close()
-        del paste_image
-
-    def change_position(self, coordinate_left_up, coordinate_right_down, new_image,
-                        name_finale_image=DEFAULT_NAME_FINALE_IMAGE):
-        paste_image = convert(new_image)
-        paste_size = (coordinate_right_down[0] - coordinate_left_up[0],
-                     coordinate_right_down[1] - coordinate_left_up[1])
-        self.clear_backgrounds_position(coordinate_left_up, paste_size,
-                                        name_finale_image, False)
-        self.change_rectangle(coordinate_left_up, coordinate_right_down, new_image)
+    def change_rectangle_background(self, coordinate, name_paste_image):
         with (Image.open(self.name_image) as image,
+            Image.open(name_paste_image) as paste_image):
+            image.paste(paste_image, coordinate)
+            image.save(self.name_image)
+
+    def change_rectangle_finale_image(self, coordinate, past_size, name_paste_image,
+                        name_finale_image=DEFAULT_NAME_FINALE_IMAGE, change_background=True):
+        if change_background:
+            self.change_rectangle_background(coordinate, name_paste_image)
+        with (Image.open(self.name_background_image) as background_image,
+              Image.open(name_paste_image) as paste_image,
               Image.open(name_finale_image) as finale_image):
-            variable_part_background_image = image.crop((
-                    coordinate_left_up[0], coordinate_left_up[1],
-                    coordinate_left_up[0] + paste_image.size[0],
-                    coordinate_left_up[1] + paste_image.size[1]))
-            paste_size = ((paste_size[0] * finale_image.size[0]) // image.size[0],
-                          (paste_size[1] * finale_image.size[1]) // image.size[1])
-            finale_coordinate = ((coordinate_left_up[0] * finale_image.size[0]) // image.size[0],
-                              (coordinate_left_up[1] * finale_image.size[1]) // image.size[1])
-            finale_image.paste(variable_part_background_image.resize(paste_size,
-                                                                     Image.Resampling.LANCZOS),
-                               finale_coordinate)
+            finale_image_paste_size = ((past_size[0] * finale_image.size[0]) // self.size[0],
+                          (past_size[1] * finale_image.size[1]) // self.size[1])
+            finale_image_coordinate = ((coordinate[0] * finale_image.size[0] + self.size[0] - 1) // self.size[0],
+                              (coordinate[1] * finale_image.size[1] + self.size[1] - 1) // self.size[1])
+            part_of_the_background = (background_image.crop((coordinate[0], coordinate[1], coordinate[0] + past_size[0], coordinate[1] + past_size[1]))).resize(finale_image_paste_size, resampling[resampling_index])
+            paste_image = paste_image.resize(finale_image_paste_size, resampling[resampling_index])
+            finale_paste_image = Image.alpha_composite(part_of_the_background, paste_image)
+            finale_image.paste(finale_paste_image, finale_image_coordinate, finale_paste_image)
             finale_image.save(name_finale_image)
-        paste_image.close()
-        del paste_image
+
+    def change_rectangle_finale_image_paste_image(self, coordinate, paste_image,
+                        name_finale_image=DEFAULT_NAME_FINALE_IMAGE):
+        past_size = paste_image.size
+        with (Image.open(self.name_background_image) as background_image,
+              Image.open(name_finale_image) as finale_image):
+            finale_image_paste_size = ((past_size[0] * finale_image.size[0]) // self.size[0],
+                          (past_size[1] * finale_image.size[1]) // self.size[1])
+            finale_image_coordinate = ((coordinate[0] * finale_image.size[0] + self.size[0] - 1) // self.size[0],
+                              (coordinate[1] * finale_image.size[1] + self.size[1] - 1) // self.size[1])
+            part_of_the_background = (background_image.crop((coordinate[0], coordinate[1], coordinate[0] + past_size[0], coordinate[1] + past_size[1]))).resize(finale_image_paste_size, resampling[resampling_index])
+            paste_image = paste_image.resize(finale_image_paste_size, resampling[resampling_index])
+            finale_paste_image = Image.alpha_composite(part_of_the_background, paste_image)
+            finale_image.paste(finale_paste_image, finale_image_coordinate, finale_paste_image)
+            finale_image.save(name_finale_image)
+
+    def change_rectangle_finale_image_default_paste_size(self, coordinate, name_paste_image,
+                        name_finale_image=DEFAULT_NAME_FINALE_IMAGE, change_background=True):
+        size = (0, 0)
+        with Image.open(name_paste_image) as paste_image:
+            size = paste_image.size
+        self.change_rectangle_finale_image(coordinate, size, name_paste_image, name_finale_image, change_background)
 
     def quick_change_size(self, new_size):
         self.size = new_size

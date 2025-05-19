@@ -1,13 +1,16 @@
 from Finger import Finger
+from Paint import Paint
 from ChordName import ChordName
 from Consts import *
 
 from os import path
 from PIL import Image, ImageDraw, ImageFont
 
-
-class Chord:
-    def __init__(self, name="", fret=0):
+class ChordPaint(Paint):
+    def __init__(self, name="", size=CHORD_IMAGE_SIZE,
+                 name_background_image=DEFAULT_NAME_CHORD_BACKGROUND_IMAGE,
+                 name_image=DEFAULT_NAME_CHORD_IMAGE, fret=0):
+        super().__init__(size, name_background_image, name_image)
         self.name = ChordName(name)
         self.start_fret = fret
         self.barre = 0
@@ -20,8 +23,7 @@ class Chord:
         self.clear_default_chord()
 
     def clear_default_chord(self):
-        new_chord = Image.open(f"src/chords/chord0.png")
-        new_chord.save(f"./src/tmp/chord.png")
+        self.clear_all_finale_image(self.name_image)
 
     def change_name(self, name):
         self.name.update(name)
@@ -65,34 +67,33 @@ class Chord:
         self.str_states = new_states
         self.draw_chord()
 
-    def draw_string(self, chord_image, number):
+    def draw_string(self, number):
         if self.str_states[number] == 'Pinched':
             return
-        state_image = Image.open(f"./src/states/{self.str_states[number]}.png")
-        position = (GRID_XS[number] - SHIFT_STRINGS, STATUS_Y - SHIFT_STRINGS)
-        chord_image.paste(state_image, position, state_image)
+        states_name = f"./src/states/{self.str_states[number]}.png"
+        coordinate = (GRID_XS[number] - SHIFT_STRINGS, STATUS_Y - SHIFT_STRINGS)
+        self.change_rectangle_finale_image_default_paste_size(coordinate, states_name, self.name_image, False)
 
-    def draw_barre(self, chord_image):
+    def draw_barre(self):
         finger = self.finger(0)
-        finger_image = Image.open(f"src/barres/barre{self.barre}.png")
-        position = (GRID_XS[finger.string - 1 + self.barre] - SHIFT_FINGERS,
+        finger_name = f"src/barres/barre{self.barre}.png"
+        coordinate = (GRID_XS[finger.string - 1 + self.barre] - SHIFT_FINGERS,
                     GRID_YS[finger.fret - 1] - SHIFT_FINGERS)
-        chord_image.paste(finger_image, position, finger_image)
+        self.change_rectangle_finale_image_default_paste_size(coordinate, finger_name, self.name_image, False)
 
-    def draw_finger(self, chord_image, number):
+    def draw_finger(self, number):
         finger = self.finger(number)
         if finger.string == 0 or finger.fret == 0:
             return
         if number == 0 and self.barre != 0:
-            self.draw_barre(chord_image)
+            self.draw_barre()
             return
-
-        finger_image = Image.open(f"src/fingers/finger{number + 1}.png")
-        position = (GRID_XS[finger.string - 1] - SHIFT_FINGERS,
+        finger_name = f"src/fingers/finger{number + 1}.png"
+        coordinate = (GRID_XS[finger.string - 1] - SHIFT_FINGERS,
                     GRID_YS[finger.fret - 1] - SHIFT_FINGERS)
-        chord_image.paste(finger_image, position, finger_image)
+        self.change_rectangle_finale_image_default_paste_size(coordinate, finger_name, self.name_image, False)
 
-    def draw_name(self, chord_image):
+    def draw_name(self):
         image = Image.new("RGBA", NAME_SIZE, (0, 0, 0, 0))
         self.name.replace('-', '/')
         name_parts = self.name.array
@@ -102,22 +103,21 @@ class Chord:
             font = self.small_font if part[1] else self.font
             drawer.text((x, y + 96 * int(part[1])), part[0], font=font, fill=(255, 255, 255, 255))
             x += font.getlength(part[0])
-        chord_image.paste(image, (0, 0), image)
+        self.change_rectangle_finale_image_paste_image((0, 0), image, self.name_image)
 
     def draw_chord(self):
-        new_chord = Image.open(f"src/chords/chord{self.start_fret}.png")
+        self.change_name_background_image_global(f"src/chords/chord{self.start_fret}.png", self.name_image)
         for i in range(5):
-            self.draw_finger(new_chord, i)
+            self.draw_finger(i)
         for i in range(6):
-            self.draw_string(new_chord, i)
-        self.draw_name(new_chord)
-        new_chord.save(f"./src/tmp/chord.png")
+            self.draw_string(i)
+        self.draw_name()
 
     def save_chord(self):
-        new_chord = Image.open(f"./src/tmp/chord.png")
         self.name.replace('/', '-')
         new_name = self.name.name
         counter = 1
         while path.exists(f"./chords/{new_name}_{counter}.png"):
             counter += 1
-        new_chord.save(f"./chords/{new_name}_{counter}.png")
+        with Image.open(self.name_image) as image:
+            image.save(f"./chords/{new_name}_{counter}.png")
