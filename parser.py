@@ -1,10 +1,9 @@
-
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from typing import List, Dict, Tuple, Set
 from collections import Counter
 
-from ChordPaint import Chord 
+from ChordPaint import ChordPaint
 
 # ─────────── Справочник kind → суффикс ───────────
 KIND_SUFFIX: Dict[str, str] = {
@@ -26,7 +25,7 @@ class Note:
 class Beat:
     number: int
     notes:  List[Note]   = field(default_factory=list)
-    chords: List[Chord]  = field(default_factory=list)
+    chords: List[ChordPaint]  = field(default_factory=list)
 
 @dataclass
 class Measure:
@@ -50,7 +49,7 @@ def strip_ns(root: ET.Element) -> None:
             el.tag = el.tag.split('}', 1)[1]
 
 # ─────────── auto-fingering с корректным баррэ ───────────
-def auto_fingering(ch: Chord, positions: list[tuple[int, int]]) -> None:
+def auto_fingering(ch: ChordPaint, positions: list[tuple[int, int]]) -> None:
     fretted = [(s, f) for s, f in positions if f > 0]
     if not fretted:
         return
@@ -82,7 +81,7 @@ def auto_fingering(ch: Chord, positions: list[tuple[int, int]]) -> None:
 
 
 # ─────────── кеш-ключ ───────────
-def chord_signature(ch: Chord) -> Tuple:
+def chord_signature(ch: ChordPaint) -> Tuple:
     fingers = tuple((f.string, f.fret) for f in ch.fingers)  # type: ignore
     barre_width = int(getattr(ch, 'barre', 0))               # ширина баррэ
     return (
@@ -102,8 +101,8 @@ class GPXMLParser:
                       or root.findtext('movement-title', '')
                       or '')
 
-    # MusicXML <harmony> → Chord
-    def _harmony_to_chord(self, h: ET.Element) -> Chord:
+    # MusicXML <harmony> → ChordPaint
+    def _harmony_to_chord(self, h: ET.Element) -> ChordPaint:
         step = h.findtext('root/root-step', '')
         alt  = h.findtext('root/root-alter')
         if alt == '1':  step += '#'
@@ -124,7 +123,7 @@ class GPXMLParser:
                 name += f'm{val}'
 
         first = int(h.findtext('frame/first-fret', '0'))
-        ch = Chord(name=name, fret=first)
+        ch = ChordPaint(name=name, fret=first)
 
         for i in range(6):
             ch.change_string_state(i)        # mute все
