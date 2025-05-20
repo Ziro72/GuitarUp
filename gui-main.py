@@ -12,9 +12,9 @@ parser = ParserWidget()
 
 drop.fileLoaded.connect(parser.load_file)
 
-lay.addWidget(drop, 1)
-lay.addWidget(parser, 2)
+lay.addWidget(drop,1)
+lay.addWidget(parser,2)
 
-win.resize(900, 500)
+win.resize(900,500)
 win.show()
 sys.exit(app.exec_())
