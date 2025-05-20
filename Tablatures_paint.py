@@ -36,32 +36,42 @@ class TablaturesPaint(Paint):
         self.clear_rectangle_finale_image(self.coordinates_by_position(position),
                                           self.tablatures_size, name_finale_image)
         self.draw_a_picture_by_number(self.columns[position[0]].tablatures[position[1]],
-                                      self.coordinates_by_position(position),  self.tablatures_size,
+                                      self.coordinates_by_position(position), self.tablatures_size,
                                       name_finale_image)
 
     def save(self, original_size=TABLATURES_ORIGINAL_SIZE):
         name_tablatures = PATH_TABLATURES + self.global_name + ".png"
-        image = Image.new("RGBA", original_size, (255, 255, 255, 0))
-        image.save(name_tablatures)
-        image.close()
-        del image
+        with Image.open(self.name_background_image) as background_image:
+            background_image.save(name_tablatures)
         for i in range(len(self.columns)):
             for j in range(len(self.columns[i].tablatures)):
                 self.change_one_tablatures((i, j), name_tablatures)
 
-    def set_global_name(self, name):
-        self.global_name = name
+    def set_global_name(self, new_global_name):
+        self.global_name = new_global_name
 
-    def set_cell_status(self, position, new_status,
-                        name_finale_image=DEFAULT_NAME_FINALE_TABLATURES_IMAGE):
-        self.columns[position[0]].tablatures[position[1]] = new_status
-        self.change_one_tablatures(position, name_finale_image)
+    def set_cell_status(self, row_number, new_name):
+        self.columns[row_number].name = new_name
+
+    def update_tablatures_position(self, position, new_tablature,
+                                   name_finale_image=DEFAULT_NAME_FINALE_TABLATURES_IMAGE):
+        if len(new_tablature) == 0 or new_tablature == 'x' or new_tablature == '-' or new_tablature.isdigit() or (new_tablature[0] == '-' and new_tablature[1:].isdigit()):
+            if len(new_tablature) == 0 or new_tablature == '-':
+                self.columns[position[0]].tablatures[position[1]] = -2
+            elif new_tablature == 'x':
+                self.columns[position[0]].tablatures[position[1]] = -1
+            else:
+                self.columns[position[0]].tablatures[position[1]] = int(new_tablature)
+            self.change_one_tablatures(position, name_finale_image)
+
+    def get_global_name(self):
+        return self.global_name
 
     def get_position_name(self, position):
-        return self.columns[position[0]].tablatures.name
+        return self.columns[position].name
 
     def get_cell_status(self, position):
         return self.columns[position[0]].tablatures[position[1]]
 
     def coordinates_by_position(self, position):
-        return (position[0] + 1) * DEFAULT_WIDTH_DISTANCE, (position[1] + 1) * DEFAULT_HEIGHT_DISTANCE
+        return 400 + position[0] * 380, 220 + position[1] * 120

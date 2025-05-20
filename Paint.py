@@ -24,6 +24,7 @@ class Paint:
         self.name_background_image = name_background_image
         self.name_image = name_image
         self.font_small = ImageFont.truetype(font, font_size)
+        print(self.font_small)
         self.quick_update_size()
 
     def clear_rectangle_background(self, coordinate, paste_size):
@@ -122,15 +123,15 @@ class Paint:
                                  name_finale_image=DEFAULT_NAME_FINALE_IMAGE):
         paste_image = Image.new("RGBA", paste_image_size, WHITE_TRANSPARENT)
         draw = ImageDraw.Draw(paste_image)
-        text = '-'
+        text_ = '-'
         match number:
             case -2:
-                text = '-'
+                text_ = '-'
             case -1:
-                text = 'x'
+                text_ = 'x'
             case int() as default if default <= 50:
-                text = str(number)
-        draw.text(coordinate, text, font=self.font_small, fill=(255, 255, 255, 255))
+                text_ = str(number)
+        draw.text((0, 0), text_, font=self.font_small, fill=(255, 255, 255, 255))
         self.change_rectangle_finale_image_paste_image(coordinate, paste_image, name_finale_image)
 
     def quick_change_size(self, new_size):
