@@ -173,3 +173,11 @@ class Paint:
                 (image.resize(self.size, Image.Resampling.LANCZOS)).save(self.name_image)
             if self.size != background.size:
                 (background.resize(self.size, Image.Resampling.LANCZOS)).save(self.name_background_image)
+
+class PaintImage(Paint):
+    def __init__(self, size, name_background_image,
+                 name_image, name_finale_image):
+        super().__init__(size, name_background_image, name_image)
+        self.background_image = Image.open(name_finale_image)
+        self.image = Image.open(name_image)
+        self.finale_image = Image.open(name_finale_image)
