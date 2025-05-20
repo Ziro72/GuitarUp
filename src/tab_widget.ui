@@ -1,42 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ArrowsDrawer</class>
- <widget class="QWidget" name="ArrowsDrawer">
+ <class>Tab</class>
+ <widget class="QWidget" name="Tab">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>870</width>
-    <height>363</height>
+    <width>920</width>
+    <height>364</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Arrows</string>
+   <string>Tab</string>
   </property>
-  <widget class="QGraphicsView" name="graphicsView">
+  <widget class="QLineEdit" name="lineEditName">
    <property name="geometry">
     <rect>
-     <x>19</x>
-     <y>40</y>
-     <width>652</width>
-     <height>212</height>
+     <x>761</x>
+     <y>273</y>
+     <width>141</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Calibri</family>
+     <pointsize>14</pointsize>
     </font>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(48, 49, 49)</string>
-   </property>
   </widget>
-  <widget class="QGroupBox" name="arrowEditor">
+  <widget class="QLabel" name="labelPreviem">
    <property name="geometry">
     <rect>
-     <x>690</x>
+     <x>21</x>
+     <y>10</y>
+     <width>81</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Calibri</family>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Previem</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="tabEditor">
+   <property name="geometry">
+    <rect>
+     <x>691</x>
      <y>41</y>
-     <width>160</width>
+     <width>211</width>
      <height>210</height>
     </rect>
    </property>
@@ -48,12 +67,12 @@
    <property name="title">
     <string/>
    </property>
-   <widget class="QLabel" name="labelType">
+   <widget class="QLabel" name="labelString_1">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
-      <width>64</width>
+      <y>70</y>
+      <width>30</width>
       <height>30</height>
      </rect>
     </property>
@@ -66,7 +85,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Type:</string>
+     <string>1</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -75,8 +94,8 @@
    <widget class="QLabel" name="labelChord">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
+      <x>20</x>
+      <y>20</y>
       <width>65</width>
       <height>30</height>
      </rect>
@@ -96,36 +115,12 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="labelAccent">
+   <widget class="QLabel" name="labelString_2">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>170</y>
-      <width>70</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-      <pointsize>14</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Accent:</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelState">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>64</width>
+      <y>110</y>
+      <width>30</width>
       <height>30</height>
      </rect>
     </property>
@@ -144,112 +139,18 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="text">
-     <string>Mute:</string>
+     <string>2</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButtonUp">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>60</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-      <pointsize>14</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Up</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButtonDown">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>130</y>
-      <width>71</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Down</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="comboBoxType">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>52</y>
-      <width>70</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <item>
-     <property name="text">
-      <string>None</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Default</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Lower</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Top</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QCheckBox" name="checkBoxAccent">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>170</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="lineEditChord">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>12</y>
-      <width>70</width>
+      <x>90</x>
+      <y>21</y>
+      <width>100</width>
       <height>27</height>
      </rect>
     </property>
@@ -260,42 +161,185 @@
      </font>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBoxState">
+   <widget class="QLabel" name="labelString_3">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>92</y>
-      <width>70</width>
-      <height>26</height>
+      <x>10</x>
+      <y>150</y>
+      <width>30</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Calibri</family>
       <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
-    <item>
-     <property name="text">
-      <string>Free</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>PM</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Muted</string>
-     </property>
-    </item>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelString_6">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>150</y>
+      <width>30</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>6</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelString_5">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>110</y>
+      <width>30</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>5</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelString_4">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>70</y>
+      <width>30</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>4</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditString_3">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>152</y>
+      <width>50</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditString_2">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>112</y>
+      <width>50</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditString_1">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>72</y>
+      <width>50</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditString_4">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>72</y>
+      <width>50</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditString_5">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>112</y>
+      <width>50</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditString_6">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>152</y>
+      <width>50</width>
+      <height>26</height>
+     </rect>
+    </property>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="arrowPositions">
+  <widget class="QGroupBox" name="tabPositions">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>21</x>
      <y>271</y>
      <width>651</width>
      <height>80</height>
@@ -415,6 +459,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="position_07">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>250</x>
@@ -495,7 +542,7 @@
      </font>
     </property>
     <property name="text">
-     <string>·</string>
+     <string>.</string>
     </property>
    </widget>
    <widget class="QPushButton" name="position_03">
@@ -646,12 +693,12 @@
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="submitButton">
+  <widget class="QPushButton" name="resetButton">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>690</x>
      <y>312</y>
-     <width>80</width>
+     <width>100</width>
      <height>36</height>
     </rect>
    </property>
@@ -664,29 +711,40 @@
     </font>
    </property>
    <property name="text">
-    <string>Submit</string>
+    <string>Reset</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEditName">
+  <widget class="QLabel" name="labelTab">
    <property name="geometry">
     <rect>
-     <x>760</x>
-     <y>273</y>
-     <width>90</width>
+     <x>691</x>
+     <y>10</y>
+     <width>70</width>
      <height>30</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Calibri</family>
-     <pointsize>14</pointsize>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
+   </property>
+   <property name="text">
+    <string>Tab</string>
+   </property>
+   <property name="textFormat">
+    <enum>Qt::RichText</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="labelName">
    <property name="geometry">
     <rect>
-     <x>690</x>
+     <x>691</x>
      <y>273</y>
      <width>60</width>
      <height>30</height>
@@ -707,12 +765,12 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="resetButton">
+  <widget class="QPushButton" name="submitButton">
    <property name="geometry">
     <rect>
-     <x>690</x>
+     <x>800</x>
      <y>312</y>
-     <width>70</width>
+     <width>100</width>
      <height>36</height>
     </rect>
    </property>
@@ -725,52 +783,25 @@
     </font>
    </property>
    <property name="text">
-    <string>Reset</string>
+    <string>Submit</string>
    </property>
   </widget>
-  <widget class="QLabel" name="labelPreviem">
+  <widget class="QGraphicsView" name="graphicsView">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>10</y>
-     <width>81</width>
-     <height>30</height>
+     <y>40</y>
+     <width>652</width>
+     <height>212</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Calibri</family>
-     <pointsize>16</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
     </font>
    </property>
-   <property name="text">
-    <string>Previem</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="labelArrow">
-   <property name="geometry">
-    <rect>
-     <x>690</x>
-     <y>10</y>
-     <width>70</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Calibri</family>
-     <pointsize>16</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Arrow</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(48, 49, 49)</string>
    </property>
   </widget>
  </widget>
