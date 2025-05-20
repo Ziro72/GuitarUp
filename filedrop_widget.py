@@ -2,30 +2,29 @@ from PyQt5.QtWidgets import QLabel
 from PyQt5.QtCore import Qt, pyqtSignal
 import os
 
-
 class FileDropWidget(QLabel):
-    """Простая зона drag&drop – отдаёт путь xml-файла."""
+    """Зона drag&drop: испускает fileLoaded(path) при сбросе .xml."""
     fileLoaded = pyqtSignal(str)
 
     def __init__(self, parent=None):
-        super().__init__("↘  Перетащите MusicXML / GP-XML сюда ↙", parent)
+        super().__init__("↘ Перетащите XML сюда ↙", parent)
         self.setAlignment(Qt.AlignCenter)
         self.setAcceptDrops(True)
-        self.setStyleSheet(
-            "border:2px dashed #888;padding:40px;font-size:16px;"
-        )
+        self.setStyleSheet("border:2px dashed #888;padding:40px;font-size:16px;")
 
-    # --- DnD events ----------------------------------------------------
     def dragEnterEvent(self, e):
         if e.mimeData().hasUrls():
             e.acceptProposedAction()
 
-    dragMoveEvent = dragEnterEvent  # поведение одинаковое
+    dragMoveEvent = dragEnterEvent
 
     def dropEvent(self, e):
-        if not e.mimeData().hasUrls():
+        urls = e.mimeData().urls()
+        if not urls:
             return
-        path = e.mimeData().urls()[0].toLocalFile()
+        path = urls[0].toLocalFile()
         if os.path.isfile(path) and path.lower().endswith(".xml"):
+            print(f"DEBUG: dropEvent → {path}")
             self.setText(os.path.basename(path))
             self.fileLoaded.emit(path)
+        e.acceptProposedAction()
