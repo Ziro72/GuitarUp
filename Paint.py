@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from Consts import *
 
 resampling = [Image.Resampling.NEAREST, Image.Resampling.BOX,
@@ -19,10 +19,11 @@ def clear_image(name_image, coordinate, size_part):
 
 class Paint:
     def __init__(self, size, name_background_image,
-                 name_image=DEFAULT_NAME_IMAGE):
+                 name_image=DEFAULT_NAME_IMAGE, font=BASE_FONT, font_size=TABLATURES_FONT_SIZE):
         self.size = size
         self.name_background_image = name_background_image
         self.name_image = name_image
+        self.font_small = ImageFont.truetype(font, font_size)
         self.quick_update_size()
 
     def clear_rectangle_background(self, coordinate, paste_size):
@@ -116,6 +117,21 @@ class Paint:
         with Image.open(name_paste_image) as paste_image:
             size = paste_image.size
         self.change_rectangle_finale_image(coordinate, size, name_paste_image, name_finale_image, change_background)
+
+    def draw_a_picture_by_number(self, number, coordinate, paste_image_size=TABLATURES_SIZE,
+                                 name_finale_image=DEFAULT_NAME_FINALE_IMAGE):
+        paste_image = Image.new("RGBA", paste_image_size, WHITE_TRANSPARENT)
+        draw = ImageDraw.Draw(paste_image)
+        text = '-'
+        match number:
+            case -2:
+                text = '-'
+            case -1:
+                text = 'x'
+            case int() as default if default <= 50:
+                text = str(number)
+        draw.text(coordinate, text, font=self.font_small, fill=(255, 255, 255, 255))
+        self.change_rectangle_finale_image_paste_image(coordinate, paste_image, name_finale_image)
 
     def quick_change_size(self, new_size):
         self.size = new_size

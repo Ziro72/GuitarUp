@@ -162,7 +162,7 @@ class GPXMLParser:
 
 # ─────────── CLI ───────────
 def main():
-    xml_file = "C:/Users/t480s/Downloads/forbidden_friendship.xml"
+    xml_file = "./forbidden_friendship.xml"
     GPXMLParser(xml_file).parse()
 
 if __name__ == "__main__":
