@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene
 from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
 
-from Tablatures_paint import TablaturesPaint
+from TabPaint import TabPaint
 
 from Consts import DEFAULT_NAME_FINALE_TABLATURES_IMAGE
 
@@ -17,7 +17,7 @@ class TabWidget(QDialog):
         super().__init__()
         uic.loadUi("src/tab_widget.ui", self)
 
-        self.tabs = TablaturesPaint()
+        self.tabs = TabPaint()
         self.tabs.clear_all_finale_image(DEFAULT_NAME_FINALE_TABLATURES_IMAGE, False)
 
         self.resetButton.clicked.connect(self.reset_pressed)
