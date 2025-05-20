@@ -7,18 +7,20 @@ from PyQt5.QtCore import QObject, QThread, pyqtSignal
 from parser import GPXMLParser
 
 class _Worker(QObject):
-    progress = pyqtSignal(int)      # 0–100%
-    finished = pyqtSignal(list)     # list[str] имен аккордов
+    progress = pyqtSignal(int)      # 0..100
+    finished = pyqtSignal(list)     # list of chord-names
 
-    def __init__(self, path:str):
+    def __init__(self, path: str):
         super().__init__()
         self.path = path
 
     def run(self):
+        print(f"DEBUG: Worker.run() for {self.path}")
         parser = GPXMLParser(self.path)
         total = parser.total_harmony or 1
         done = 0
-        names: list[str] = []
+        names = []
+        # *** ТОЛЬКО ИЗВЛЕКАЕМ СТРОКИ ИМЕН ***
         for nm in parser.iter_chord_names():
             done += 1
             pct = int(done / total * 100)
@@ -31,14 +33,15 @@ class ParserWidget(QWidget):
         super().__init__(parent)
         self._build_ui()
         self.thread = None
+        self.worker = None
         self._current_path = None
 
     def _build_ui(self):
-        self.btnOpen = QPushButton("Открыть XML")
-        self.lbl     = QLabel("Перетащите файл слева или нажмите Открыть")
-        self.pbar    = QProgressBar()
-        self.listBox = QListWidget()
-        self.btnSave = QPushButton("Сохранить лог")
+        self.btnOpen  = QPushButton("Открыть XML")
+        self.lbl      = QLabel("Перетащите файл слева или нажмите Открыть")
+        self.pbar     = QProgressBar()
+        self.listBox  = QListWidget()
+        self.btnSave  = QPushButton("Сохранить лог")
         self.btnSave.setEnabled(False)
 
         lay = QVBoxLayout(self)
@@ -53,12 +56,12 @@ class ParserWidget(QWidget):
 
     def _on_open(self):
         path, _ = QFileDialog.getOpenFileName(
-            self, "Открыть MusicXML / GP-XML", "", "XML files (*.xml)"
+            self, "Открыть XML", "", "XML files (*.xml)"
         )
         if path:
             self.load_file(path)
 
-    def load_file(self, path:str):
+    def load_file(self, path: str):
         print(f"DEBUG: load_file → {path}")
         self._current_path = path
         self.lbl.setText(f"Парсим: {path}")
@@ -67,10 +70,9 @@ class ParserWidget(QWidget):
         self.btnSave.setEnabled(False)
 
         self.thread = QThread(self)
-        self.worker = _Worker(path)
+        self.worker = _Worker(path)              # ← храним, чтобы не GC
         self.worker.moveToThread(self.thread)
 
-        # now the worker will not be garbage‐collected
         self.worker.progress.connect(self.pbar.setValue)
         self.worker.finished.connect(self._on_finished)
 
@@ -81,14 +83,15 @@ class ParserWidget(QWidget):
 
         self.thread.start()
 
-    def _on_finished(self, names:list[str]):
+    def _on_finished(self, names: list[str]):
         print(f"DEBUG: finished → {names}")
-        self.lbl.setText(f"Готово. Уникальных аккордов: {len(names)}")
+        self.lbl.setText(f"Готово. Уникальных: {len(names)}")
         self.listBox.addItems(names)
         self.btnSave.setEnabled(True)
 
-        # Теперь, в главном потоке, отрисуем сами диаграммы
-        GPXMLParser(self._current_path).parse()
+        # ОТРИСОВКА ДИАГРАММ — В GUI-ПОТОКЕ
+        parser = GPXMLParser(self._current_path)
+        parser.parse()
 
     def _on_save(self):
         path, _ = QFileDialog.getSaveFileName(
