@@ -49,20 +49,19 @@ class TablaturesPaint(Paint):
             for j in range(len(self.columns[i].tablatures)):
                 self.change_one_tablatures((i, j), name_tablatures)
 
-    def update_global_name_background_image(self):
-        self.global_name = self.name_image
+    def set_global_name(self, name):
+        self.global_name = name
 
-    def update_tablatures_position(self, position, new_tablature,
-                                   name_finale_image=DEFAULT_NAME_FINALE_TABLATURES_IMAGE):
-        self.columns[position[0]].tablatures[position[1]] = new_tablature
+    def set_cell_status(self, position, new_status,
+                        name_finale_image=DEFAULT_NAME_FINALE_TABLATURES_IMAGE):
+        self.columns[position[0]].tablatures[position[1]] = new_status
         self.change_one_tablatures(position, name_finale_image)
 
     def get_position_name(self, position):
         return self.columns[position[0]].tablatures.name
 
-    def get_position_tablature(self, position):
+    def get_cell_status(self, position):
         return self.columns[position[0]].tablatures[position[1]]
-
 
     def coordinates_by_position(self, position):
         return (position[0] + 1) * DEFAULT_WIDTH_DISTANCE, (position[1] + 1) * DEFAULT_HEIGHT_DISTANCE
