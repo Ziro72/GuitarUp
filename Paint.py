@@ -125,7 +125,7 @@ class Paint:
         draw = ImageDraw.Draw(paste_image)
         text_ = '-'
         match number:
-            case -2:
+            case int() as default if default <= -2:
                 text_ = '-'
             case -1:
                 text_ = 'x'
