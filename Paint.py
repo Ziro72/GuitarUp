@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from Consts import *
 
 resampling = [Image.Resampling.NEAREST, Image.Resampling.BOX,
@@ -19,10 +19,12 @@ def clear_image(name_image, coordinate, size_part):
 
 class Paint:
     def __init__(self, size, name_background_image,
-                 name_image=DEFAULT_NAME_IMAGE):
+                 name_image=DEFAULT_NAME_IMAGE, font=BASE_FONT, font_size=TABLATURES_FONT_SIZE):
         self.size = size
         self.name_background_image = name_background_image
         self.name_image = name_image
+        self.font_small = ImageFont.truetype(font, font_size)
+        print(self.font_small)
         self.quick_update_size()
 
     def clear_rectangle_background(self, coordinate, paste_size):
@@ -117,6 +119,21 @@ class Paint:
             size = paste_image.size
         self.change_rectangle_finale_image(coordinate, size, name_paste_image, name_finale_image, change_background)
 
+    def draw_a_picture_by_number(self, number, coordinate, paste_image_size=TABLATURES_SIZE,
+                                 name_finale_image=DEFAULT_NAME_FINALE_IMAGE):
+        paste_image = Image.new("RGBA", paste_image_size, WHITE_TRANSPARENT)
+        draw = ImageDraw.Draw(paste_image)
+        text_ = '-'
+        match number:
+            case int() as default if default <= -2:
+                text_ = '-'
+            case -1:
+                text_ = 'x'
+            case int() as default if default <= 50:
+                text_ = str(number)
+        draw.text((0, 0), text_, font=self.font_small, fill=(255, 255, 255, 255))
+        self.change_rectangle_finale_image_paste_image(coordinate, paste_image, name_finale_image)
+
     def quick_change_size(self, new_size):
         self.size = new_size
 
@@ -150,7 +167,17 @@ class Paint:
     def quick_update_size(self):
         with (Image.open(self.name_image) as image,
               Image.open(self.name_background_image) as background):
-            if self.size == image.size:
+            if self.size == image.size and self.size == background.size:
                 return
-            (image.resize(self.size, Image.Resampling.LANCZOS)).save(self.name_image)
-            (background.resize(self.size, Image.Resampling.LANCZOS)).save(self.name_background_image)
+            if self.size != image.size:
+                (image.resize(self.size, Image.Resampling.LANCZOS)).save(self.name_image)
+            if self.size != background.size:
+                (background.resize(self.size, Image.Resampling.LANCZOS)).save(self.name_background_image)
+
+class PaintImage(Paint):
+    def __init__(self, size, name_background_image,
+                 name_image, name_finale_image):
+        super().__init__(size, name_background_image, name_image)
+        self.background_image = Image.open(name_finale_image)
+        self.image = Image.open(name_image)
+        self.finale_image = Image.open(name_finale_image)
