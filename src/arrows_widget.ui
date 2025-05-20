@@ -7,8 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>870</width>
-    <height>363</height>
+    <height>364</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>870</width>
+    <height>364</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>870</width>
+    <height>364</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Arrows</string>
@@ -322,6 +334,8 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -341,10 +355,12 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>.</string>
+     <string>·</string>
     </property>
    </widget>
    <widget class="QPushButton" name="position_04">
@@ -360,10 +376,12 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>.</string>
+     <string>·</string>
     </property>
    </widget>
    <widget class="QPushButton" name="position_05">
@@ -379,6 +397,8 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -398,10 +418,12 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>.</string>
+     <string>·</string>
     </property>
    </widget>
    <widget class="QPushButton" name="position_07">
@@ -417,10 +439,12 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>$</string>
+     <string>&amp;&amp;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="position_08">
@@ -436,10 +460,12 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>.</string>
+     <string>·</string>
     </property>
    </widget>
    <widget class="QPushButton" name="position_09">
@@ -455,6 +481,8 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -474,10 +502,12 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>.</string>
+     <string>·</string>
     </property>
    </widget>
    <widget class="QPushButton" name="position_03">
@@ -493,10 +523,12 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>$</string>
+     <string>&amp;&amp;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="position_12">
@@ -512,10 +544,12 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>.</string>
+     <string>·</string>
     </property>
    </widget>
    <widget class="QPushButton" name="position_13">
@@ -531,6 +565,8 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -550,10 +586,12 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>$</string>
+     <string>&amp;&amp;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="position_14">
@@ -569,10 +607,12 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>.</string>
+     <string>·</string>
     </property>
    </widget>
    <widget class="QPushButton" name="position_16">
@@ -588,10 +628,12 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>.</string>
+     <string>·</string>
     </property>
    </widget>
    <widget class="QPushButton" name="position_15">
@@ -607,10 +649,12 @@
      <font>
       <family>Calibri</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>$</string>
+     <string>&amp;&amp;</string>
     </property>
    </widget>
   </widget>
