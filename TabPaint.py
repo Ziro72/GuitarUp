@@ -62,7 +62,12 @@ class TabPaint(Paint):
             elif new_tablature == 'x':
                 self.columns[position[0]].tab_row[position[1]] = -1
             else:
-                self.columns[position[0]].tab_row[position[1]] = int(new_tablature)
+                if int(new_tablature) <= -2:
+                    self.columns[position[0]].tab_row[position[1]] = -2
+                elif int(new_tablature) >= 50:
+                    self.columns[position[0]].tab_row[position[1]] = 50
+                else:
+                    self.columns[position[0]].tab_row[position[1]] = int(new_tablature)
             self.change_one_tablatures(position, name_finale_image)
 
     def get_global_name(self):
@@ -72,7 +77,11 @@ class TabPaint(Paint):
         return self.columns[position].name
 
     def get_cell_status(self, position):
-        return self.columns[position[0]].tab_row[position[1]]
+        if self.columns[position[0]].tab_row[position[1]] == -2:
+            return "-"
+        if self.columns[position[0]].tab_row[position[1]] == -1:
+            return "x"
+        return str(self.columns[position[0]].tab_row[position[1]])
 
     def coordinates_by_position(self, position):
         return 400 + position[0] * 380, 220 + position[1] * 120

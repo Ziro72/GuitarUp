@@ -8,6 +8,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
 
 from TabPaint import TabPaint
+from TabCellValidator import TabCellValidator
 
 from Consts import DEFAULT_NAME_FINALE_TABLATURES_IMAGE
 
@@ -50,6 +51,13 @@ class TabWidget(QDialog):
         self.lineEditString_4.textChanged.connect(lambda: self.string_status_changed(4))
         self.lineEditString_5.textChanged.connect(lambda: self.string_status_changed(5))
         self.lineEditString_6.textChanged.connect(lambda: self.string_status_changed(6))
+
+        self.lineEditString_1.setValidator(TabCellValidator())
+        self.lineEditString_2.setValidator(TabCellValidator())
+        self.lineEditString_3.setValidator(TabCellValidator())
+        self.lineEditString_4.setValidator(TabCellValidator())
+        self.lineEditString_5.setValidator(TabCellValidator())
+        self.lineEditString_6.setValidator(TabCellValidator())
 
         self.lineEditName.textChanged.connect(self.tabs_name_changed)
         self.refresh_global_name_input()
