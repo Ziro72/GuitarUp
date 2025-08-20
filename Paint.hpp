@@ -37,5 +37,5 @@ class Paint {
  private:
   cv::Mat image_;
   std::vector<std::string> background_image_names_ = {"default"};
-  std::vector<std::string> image_name_ = {"defaultt"};
+  std::vector<std::string> image_name_ = {"default"};
 };
