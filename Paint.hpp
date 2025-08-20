@@ -1,10 +1,11 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <vector>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/imgcodecs.hpp>
 
-constexpr std::string background_image_path = "./src/backgrounds/";
+const std::string background_image_path = "./src/backgrounds/";
 
 void paste_image(cv::Mat& image, const cv::Mat& inserted_image,
                  const cv::Rect& rectangle);
@@ -35,6 +36,6 @@ class Paint {
  public:
  private:
   cv::Mat image_;
-  std::string background_image_name = "default";
-  std::string image_name_ = "default";
+  std::vector<std::string> background_image_names_ = {"default"};
+  std::vector<std::string> image_name_ = {"default"};
 };
