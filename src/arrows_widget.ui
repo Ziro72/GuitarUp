@@ -30,8 +30,8 @@
     <rect>
      <x>19</x>
      <y>40</y>
-     <width>652</width>
-     <height>212</height>
+     <width>653</width>
+     <height>220</height>
     </rect>
    </property>
    <property name="font">
@@ -64,8 +64,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
-      <width>64</width>
+      <y>90</y>
+      <width>60</width>
       <height>30</height>
      </rect>
     </property>
@@ -81,7 +81,7 @@
      <string>Type:</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="labelChord">
@@ -89,7 +89,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>65</width>
+      <width>60</width>
       <height>30</height>
      </rect>
     </property>
@@ -105,7 +105,7 @@
      <string>Chord:</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="labelAccent">
@@ -113,7 +113,7 @@
      <rect>
       <x>10</x>
       <y>170</y>
-      <width>70</width>
+      <width>60</width>
       <height>30</height>
      </rect>
     </property>
@@ -129,15 +129,15 @@
      <string>Accent:</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="labelState">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
-      <width>64</width>
+      <y>130</y>
+      <width>60</width>
       <height>30</height>
      </rect>
     </property>
@@ -159,14 +159,14 @@
      <string>Mute:</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButtonUp">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>130</y>
+      <y>50</y>
       <width>60</width>
       <height>30</height>
      </rect>
@@ -187,7 +187,7 @@
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>130</y>
+      <y>50</y>
       <width>71</width>
       <height>30</height>
      </rect>
@@ -206,7 +206,7 @@
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>52</y>
+      <y>92</y>
       <width>70</width>
       <height>26</height>
      </rect>
@@ -276,7 +276,7 @@
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>92</y>
+      <y>132</y>
       <width>70</width>
       <height>26</height>
      </rect>
@@ -308,7 +308,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>271</y>
+     <y>270</y>
      <width>651</width>
      <height>80</height>
     </rect>
@@ -683,7 +683,7 @@
    <property name="geometry">
     <rect>
      <x>760</x>
-     <y>273</y>
+     <y>272</y>
      <width>90</width>
      <height>30</height>
     </rect>
@@ -699,7 +699,7 @@
    <property name="geometry">
     <rect>
      <x>690</x>
-     <y>273</y>
+     <y>272</y>
      <width>60</width>
      <height>30</height>
     </rect>

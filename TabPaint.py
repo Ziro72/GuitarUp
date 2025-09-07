@@ -8,7 +8,7 @@ class TabPaint(Paint):
     def __init__(self, size=TABLATURES_ORIGINAL_SIZE,
                  name_background_image=DEFAULT_NAME_TABLATURES_BACKGROUND_IMAGE,
                  name_image=DEFAULT_NAME_TABLATURES_IMAGE, columns=None,
-                 tablatures_size=TABLATURES_SIZE, global_name="tablatures"):
+                 tablatures_size=TABLATURES_SIZE, global_name="tabs"):
         super().__init__(size, name_background_image, name_image)
         if columns is None:
             columns = [TabRow() for _ in range(DEFAULT_NUMBER_OF_COLUMNS)]

@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>920</width>
+    <width>870</width>
     <height>364</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>920</width>
+    <width>870</width>
     <height>364</height>
    </size>
   </property>
@@ -28,9 +28,9 @@
   <widget class="QLineEdit" name="lineEditName">
    <property name="geometry">
     <rect>
-     <x>761</x>
-     <y>273</y>
-     <width>141</width>
+     <x>760</x>
+     <y>272</y>
+     <width>90</width>
      <height>30</height>
     </rect>
    </property>
@@ -44,7 +44,7 @@
   <widget class="QLabel" name="labelPreviem">
    <property name="geometry">
     <rect>
-     <x>21</x>
+     <x>20</x>
      <y>10</y>
      <width>81</width>
      <height>30</height>
@@ -65,9 +65,9 @@
   <widget class="QGroupBox" name="tabEditor">
    <property name="geometry">
     <rect>
-     <x>691</x>
+     <x>690</x>
      <y>41</y>
-     <width>211</width>
+     <width>160</width>
      <height>210</height>
     </rect>
    </property>
@@ -84,8 +84,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>70</y>
-      <width>30</width>
+      <y>60</y>
+      <width>20</width>
       <height>30</height>
      </rect>
     </property>
@@ -107,8 +107,8 @@
    <widget class="QLabel" name="labelChord">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>20</y>
+      <x>10</x>
+      <y>10</y>
       <width>65</width>
       <height>30</height>
      </rect>
@@ -133,7 +133,7 @@
      <rect>
       <x>10</x>
       <y>110</y>
-      <width>30</width>
+      <width>20</width>
       <height>30</height>
      </rect>
     </property>
@@ -161,9 +161,9 @@
    <widget class="QLineEdit" name="lineEditChord">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>21</y>
-      <width>100</width>
+      <x>80</x>
+      <y>12</y>
+      <width>70</width>
       <height>27</height>
      </rect>
     </property>
@@ -178,8 +178,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>150</y>
-      <width>30</width>
+      <y>160</y>
+      <width>20</width>
       <height>30</height>
      </rect>
     </property>
@@ -207,9 +207,9 @@
    <widget class="QLabel" name="labelString_6">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>150</y>
-      <width>30</width>
+      <x>130</x>
+      <y>160</y>
+      <width>20</width>
       <height>30</height>
      </rect>
     </property>
@@ -237,9 +237,9 @@
    <widget class="QLabel" name="labelString_5">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>130</x>
       <y>110</y>
-      <width>30</width>
+      <width>20</width>
       <height>30</height>
      </rect>
     </property>
@@ -267,9 +267,9 @@
    <widget class="QLabel" name="labelString_4">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>70</y>
-      <width>30</width>
+      <x>130</x>
+      <y>60</y>
+      <width>20</width>
       <height>30</height>
      </rect>
     </property>
@@ -291,69 +291,123 @@
    <widget class="QLineEdit" name="lineEditString_3">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>152</y>
-      <width>50</width>
+      <x>35</x>
+      <y>162</y>
+      <width>40</width>
       <height>26</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEditString_2">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>35</x>
       <y>112</y>
-      <width>50</width>
+      <width>40</width>
       <height>26</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEditString_1">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>72</y>
-      <width>50</width>
+      <x>35</x>
+      <y>62</y>
+      <width>40</width>
       <height>26</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEditString_4">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>72</y>
-      <width>50</width>
+      <x>85</x>
+      <y>62</y>
+      <width>40</width>
       <height>26</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEditString_5">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>85</x>
       <y>112</y>
-      <width>50</width>
+      <width>40</width>
       <height>26</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEditString_6">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>152</y>
-      <width>50</width>
+      <x>85</x>
+      <y>162</y>
+      <width>40</width>
       <height>26</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
   <widget class="QGroupBox" name="tabPositions">
    <property name="geometry">
     <rect>
-     <x>21</x>
-     <y>271</y>
+     <x>20</x>
+     <y>270</y>
      <width>651</width>
      <height>80</height>
     </rect>
@@ -555,7 +609,7 @@
      </font>
     </property>
     <property name="text">
-     <string>.</string>
+     <string>·</string>
     </property>
    </widget>
    <widget class="QPushButton" name="position_03">
@@ -711,7 +765,7 @@
     <rect>
      <x>690</x>
      <y>312</y>
-     <width>100</width>
+     <width>70</width>
      <height>36</height>
     </rect>
    </property>
@@ -730,7 +784,7 @@
   <widget class="QLabel" name="labelTab">
    <property name="geometry">
     <rect>
-     <x>691</x>
+     <x>690</x>
      <y>10</y>
      <width>70</width>
      <height>30</height>
@@ -757,8 +811,8 @@
   <widget class="QLabel" name="labelName">
    <property name="geometry">
     <rect>
-     <x>691</x>
-     <y>273</y>
+     <x>690</x>
+     <y>272</y>
      <width>60</width>
      <height>30</height>
     </rect>
@@ -781,9 +835,9 @@
   <widget class="QPushButton" name="submitButton">
    <property name="geometry">
     <rect>
-     <x>800</x>
+     <x>770</x>
      <y>312</y>
-     <width>100</width>
+     <width>80</width>
      <height>36</height>
     </rect>
    </property>
@@ -802,10 +856,10 @@
   <widget class="QGraphicsView" name="graphicsView">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>19</x>
      <y>40</y>
-     <width>652</width>
-     <height>212</height>
+     <width>653</width>
+     <height>220</height>
     </rect>
    </property>
    <property name="font">
