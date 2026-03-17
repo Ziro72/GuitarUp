@@ -7,7 +7,7 @@ from PyQt5.QtCore import Qt
 from filedrop_widget import FileDropWidget
 from parser_widget import ParserWidget
 from ChordWidget import ChordWidget
-from ArrowsWidget import ArrowsWidget
+from StrumWidget import StrumWidget
 from ТabWidget import TabWidget
 
 
@@ -40,7 +40,7 @@ class GuitarUpMainWindow(QMainWindow):
         self.tabs = QTabWidget()
         parser_tab = ParserTab()
         chord_tab = ChordWidget()
-        arrows_tab = ArrowsWidget()
+        arrows_tab = StrumWidget()
         tablatures_tab = TabWidget()
 
         for w in (parser_tab, chord_tab, arrows_tab, tablatures_tab):

@@ -10,16 +10,16 @@ from PyQt5 import uic
 from TabPaint import TabPaint
 from TabCellValidator import TabCellValidator
 
-from Consts import DEFAULT_NAME_FINALE_TABLATURES_IMAGE
+from Consts import TAB_DRAFT_DIR
 
 
 class TabWidget(QDialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi("src/tab_widget.ui", self)
+        uic.loadUi("src/ui/tab_widget.ui", self)
 
         self.tabs = TabPaint()
-        self.tabs.clear_all_finale_image(DEFAULT_NAME_FINALE_TABLATURES_IMAGE, False)
+        self.tabs.clear_draft()
 
         self.resetButton.clicked.connect(self.reset_pressed)
         self.submitButton.clicked.connect(self.submit_pressed)
@@ -106,14 +106,14 @@ class TabWidget(QDialog):
     def string_status_changed(self, index):
         string = eval(f"self.lineEditString_{index}")
         new_element = string.text()
-        self.tabs.update_tablatures_position((self.actual_row, index - 1), new_element)
+        self.tabs.update_tab_position((self.actual_row, index - 1), new_element)
         self.update_visual_display()
 
     def submit_pressed(self):
         self.tabs.save()
 
     def reset_pressed(self):
-        self.tabs.clear_all_tablatures(DEFAULT_NAME_FINALE_TABLATURES_IMAGE, True)
+        self.tabs.clear_tab(TAB_DRAFT_DIR, True)
         self.refresh_global_name_input()
         self.update_tab_menu()
         self.update_visual_display()
@@ -123,7 +123,7 @@ class TabWidget(QDialog):
 
     def update_visual_display(self):
         scene = QGraphicsScene()
-        pixmap = QPixmap(DEFAULT_NAME_FINALE_TABLATURES_IMAGE)
+        pixmap = QPixmap(TAB_DRAFT_DIR)
         scene.addPixmap(pixmap)
         self.graphicsView.setScene(scene)
 
